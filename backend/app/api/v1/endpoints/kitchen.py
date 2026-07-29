@@ -1,5 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query, Body
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
 from typing import List
@@ -33,10 +34,10 @@ async def get_kitchen_queue(claims: dict = Depends(get_current_user_claims), db:
         .order_by(Order.created_at.asc())
     )
 
-from fastapi import Query, Body
 from app.services.whatsapp_service import whatsapp_service
 
 @router.patch("/tickets/{ticket_id}/status")
+
 async def patch_kitchen_ticket_status(
     ticket_id: str,
     new_status: str = Query(None),

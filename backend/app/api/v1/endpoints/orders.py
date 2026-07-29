@@ -1,5 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query, Body
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
 from typing import List
@@ -105,9 +106,8 @@ async def create_order(payload: OrderCreateInput, db: AsyncSession = Depends(get
     result = await db.execute(select(Order).options(selectinload(Order.items)).filter(Order.id == new_order.id))
     return result.scalars().first()
 
-from fastapi import Body
-
 @router.patch("/{order_id}/status")
+
 async def update_order_status(
     order_id: str,
     new_status: str = Query(None),
