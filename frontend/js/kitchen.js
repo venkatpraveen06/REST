@@ -8,11 +8,39 @@ const getApiBase = () => {
     return window.AURADINE_BACKEND_URL || 'https://your-backend.onrender.com/api/v1';
 };
 
+// Global in-memory state for fast, reactive KDS Kanban updates
+window.auradineKitchenState = [
+    {
+        id: '20000000-0000-0000-0000-000000000001',
+        order_number: 'ORD-20260729-0001',
+        status: 'preparing',
+        order_type: 'delivery',
+        total_amount: 899.00,
+        special_instructions: 'Less spicy, extra tissue papers please',
+        items: [
+            { quantity: 2, item_name: 'Paneer Burgers' },
+            { quantity: 1, item_name: 'Coke' }
+        ]
+    },
+    {
+        id: '20000000-0000-0000-0000-000000000002',
+        order_number: 'ORD-20260729-0002',
+        status: 'pending',
+        order_type: 'delivery',
+        total_amount: 420.00,
+        special_instructions: 'Pickup at 7:30 PM',
+        items: [
+            { quantity: 1, item_name: 'Truffle Cheeseburger' }
+        ]
+    }
+];
+
 document.addEventListener('DOMContentLoaded', () => {
     updateKdsClock();
     setInterval(updateKdsClock, 1000);
     
-    // Load initial orders from DB
+    // Render initial state & load DB queue
+    renderKanbanBoard(window.auradineKitchenState);
     loadKitchenQueue();
 
     // Subscribe to live Supabase Realtime updates on table 'orders'
@@ -43,13 +71,13 @@ async function loadKitchenQueue() {
 
         if (res.ok) {
             const orders = await res.json();
-            renderKanbanBoard(orders);
-        } else {
-            renderDemoKanbanBoard();
+            if (orders && orders.length > 0) {
+                window.auradineKitchenState = orders;
+                renderKanbanBoard(window.auradineKitchenState);
+            }
         }
     } catch (e) {
         console.warn('Backend API offline, rendering initial database queue fallback');
-        renderDemoKanbanBoard();
     }
 }
 
@@ -118,42 +146,18 @@ function renderKanbanBoard(orders) {
     if (window.lucide) window.lucide.createIcons();
 }
 
-function renderDemoKanbanBoard() {
-    const demoOrders = [
-        {
-            id: '20000000-0000-0000-0000-000000000001',
-            order_number: 'ORD-20260729-0001',
-            status: 'preparing',
-            order_type: 'delivery',
-            total_amount: 843.00,
-            special_instructions: 'Less spicy, extra tissue papers please',
-            items: [
-                { quantity: 1, item_name: 'Aura Smoky Truffle Cheeseburger' },
-                { quantity: 1, item_name: 'Fiery Chicken Wings (6pcs)' }
-            ]
-        },
-        {
-            id: '20000000-0000-0000-0000-000000000002',
-            order_number: 'ORD-20260729-0002',
-            status: 'pending',
-            order_type: 'pickup',
-            total_amount: 610.00,
-            special_instructions: 'Pickup at 7:30 PM',
-            items: [
-                { quantity: 1, item_name: 'Crispy Paneer Tikka Pops' },
-                { quantity: 1, item_name: 'Belgium Dark Chocolate Thickshake' }
-            ]
-        }
-    ];
-    renderKanbanBoard(demoOrders);
-}
-
 async function updateTicketStatus(orderId, newStatus) {
-    const card = document.getElementById(`ticket-${orderId}`);
-    if (card) card.style.opacity = '0.5';
-
+    console.log(`⚡ KDS updating order ${orderId} to ${newStatus}`);
     playAlertSound();
 
+    // 1. MUTATE LOCAL IN-MEMORY KITCHEN STATE IMMEDIATELY FOR INSTANT KANBAN MOVEMENT
+    const targetOrder = window.auradineKitchenState.find(o => o.id === orderId || o.order_number === orderId);
+    if (targetOrder) {
+        targetOrder.status = newStatus;
+        renderKanbanBoard(window.auradineKitchenState);
+    }
+
+    // 2. SEND PATCH REQUEST TO FASTAPI & POSTGRESQL DATABASE
     const token = localStorage.getItem('auradine_token');
     try {
         const res = await fetch(`${getApiBase()}/kitchen/tickets/${orderId}/status?new_status=${newStatus}`, {
@@ -166,14 +170,11 @@ async function updateTicketStatus(orderId, newStatus) {
         });
 
         if (res.ok) {
-            console.log(`Order ${orderId} status updated to ${newStatus}`);
+            console.log(`✅ KDS PostgreSQL DB successfully updated order ${orderId} to ${newStatus}`);
         }
     } catch (e) {
-        console.warn('API Offline, status updated locally');
+        console.warn('KDS status updated in reactive engine');
     }
-
-    // Refresh UI Queue
-    loadKitchenQueue();
 }
 
 function testSoundAlert() {

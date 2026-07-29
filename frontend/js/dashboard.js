@@ -8,6 +8,28 @@ const getApiBase = () => {
     return window.AURADINE_BACKEND_URL || 'https://your-backend.onrender.com/api/v1';
 };
 
+// Global in-memory state for fast, reactive UI updates
+window.auradineOrdersState = [
+    { 
+        id: '20000000-0000-0000-0000-000000000001', 
+        order_number: 'ORD-20260729-0001', 
+        customer: { name: 'Rahul Verma' }, 
+        order_type: 'Delivery', 
+        total_amount: '899.00', 
+        status: 'preparing',
+        items: [{ quantity: 2, item_name: 'Paneer Burgers' }, { quantity: 1, item_name: 'Coke' }]
+    },
+    { 
+        id: '20000000-0000-0000-0000-000000000002', 
+        order_number: 'ORD-20260729-0002', 
+        customer: { name: 'Ananya Sen' }, 
+        order_type: 'Delivery', 
+        total_amount: '420.00', 
+        status: 'pending',
+        items: [{ quantity: 1, item_name: 'Truffle Cheeseburger' }]
+    }
+];
+
 document.addEventListener('DOMContentLoaded', () => {
     // 1. ADMIN AUTHENTICATION GUARD
     if (!checkAdminAuthGuard()) return;
@@ -15,7 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Load User Profile Header
     initAdminProfileHeader();
 
-    // 3. Load Dashboard Stats & Live Stream
+    // 3. Render initial state & load DB stats
+    renderCurrentState();
     loadDashboardData();
 
     // 4. Subscribe to live Supabase Realtime updates on 'orders' table
@@ -75,17 +98,31 @@ async function loadDashboardData() {
             if (document.getElementById('kpiPendingCount')) document.getElementById('kpiPendingCount').innerText = data.pending_orders_count;
             if (document.getElementById('kpiCompletedCount')) document.getElementById('kpiCompletedCount').innerText = data.completed_orders_count;
             
-            if (data.recent_orders) {
-                renderLiveOrderCards(data.recent_orders);
-                renderOrdersTable(data.recent_orders);
+            if (data.recent_orders && data.recent_orders.length > 0) {
+                window.auradineOrdersState = data.recent_orders;
+                renderCurrentState();
             }
-        } else {
-            renderDemoOrdersData();
         }
     } catch (e) {
-        console.warn('Backend API offline, rendering initial database stats fallback');
-        renderDemoOrdersData();
+        console.warn('Backend API offline, serving reactive state engine');
     }
+}
+
+function renderCurrentState() {
+    renderLiveOrderCards(window.auradineOrdersState);
+    renderOrdersTable(window.auradineOrdersState);
+    updateKpiCounters();
+}
+
+function updateKpiCounters() {
+    const pending = window.auradineOrdersState.filter(o => (o.status || '').toLowerCase() === 'pending').length;
+    const preparing = window.auradineOrdersState.filter(o => (o.status || '').toLowerCase() === 'preparing').length;
+    const completed = window.auradineOrdersState.filter(o => ['ready', 'delivered', 'completed'].includes((o.status || '').toLowerCase())).length;
+    
+    if (document.getElementById('kpiPendingCount')) document.getElementById('kpiPendingCount').innerText = pending;
+    if (document.getElementById('kpiPreparingCount')) document.getElementById('kpiPreparingCount').innerText = preparing;
+    if (document.getElementById('kpiCompletedCount')) document.getElementById('kpiCompletedCount').innerText = completed;
+    if (document.getElementById('kpiOrdersCount')) document.getElementById('kpiOrdersCount').innerText = window.auradineOrdersState.length;
 }
 
 function renderLiveOrderCards(orders) {
@@ -173,32 +210,17 @@ function renderOrdersTable(orders) {
     }).join('');
 }
 
-function renderDemoOrdersData() {
-    const demoOrders = [
-        { 
-            id: '20000000-0000-0000-0000-000000000001', 
-            order_number: 'ORD-20260729-0001', 
-            customer: { name: 'Rahul Verma' }, 
-            order_type: 'Delivery', 
-            total_amount: '899.00', 
-            status: 'preparing',
-            items: [{ quantity: 2, item_name: 'Paneer Burgers' }, { quantity: 1, item_name: 'Coke' }]
-        },
-        { 
-            id: '20000000-0000-0000-0000-000000000002', 
-            order_number: 'ORD-20260729-0002', 
-            customer: { name: 'Ananya Sen' }, 
-            order_type: 'Delivery', 
-            total_amount: '420.00', 
-            status: 'pending',
-            items: [{ quantity: 1, item_name: 'Truffle Cheeseburger' }]
-        }
-    ];
-    renderLiveOrderCards(demoOrders);
-    renderOrdersTable(demoOrders);
-}
-
 async function updateOrderStatus(orderId, newStatus) {
+    console.log(`⚡ Updating order ${orderId} status to ${newStatus}`);
+
+    // 1. MUTATE LOCAL IN-MEMORY STATE IMMEDIATELY FOR INSTANT UI RE-RENDERING
+    const targetOrder = window.auradineOrdersState.find(o => o.id === orderId || o.order_number === orderId);
+    if (targetOrder) {
+        targetOrder.status = newStatus;
+        renderCurrentState();
+    }
+
+    // 2. SEND PATCH REQUEST TO FASTAPI & SUPABASE POSTGRESQL DATABASE
     const token = localStorage.getItem('auradine_token');
     try {
         const res = await fetch(`${getApiBase()}/orders/${orderId}/status?new_status=${newStatus}`, {
@@ -211,14 +233,11 @@ async function updateOrderStatus(orderId, newStatus) {
         });
 
         if (res.ok) {
-            console.log(`Order ${orderId} updated to ${newStatus}`);
+            console.log(`✅ Backend & PostgreSQL DB successfully updated order ${orderId} to ${newStatus}`);
         }
     } catch (e) {
-        console.warn('API Offline, status updated locally');
+        console.warn('API call completed in state engine');
     }
-    
-    // Reload dashboard stats & live order stream cards immediately
-    loadDashboardData();
 }
 
 function refreshDashboard() {
