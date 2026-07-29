@@ -1,4 +1,4 @@
-// Realtime Dynamic Executive Dashboard & Auth Guard Logic
+// Realtime Dynamic Executive Dashboard & Live Order Stream Logic
 const getApiBase = () => {
     if (typeof window === 'undefined') return 'http://localhost:8000/api/v1';
     const host = window.location.hostname;
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Load User Profile Header
     initAdminProfileHeader();
 
-    // 3. Load Dashboard Stats
+    // 3. Load Dashboard Stats & Live Stream
     loadDashboardData();
 
     // 4. Subscribe to live Supabase Realtime updates on 'orders' table
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.AuraSupabaseRealtime) {
         window.AuraSupabaseRealtime.subscribeToLiveOrders(restaurantId, (newOrder) => {
             console.log("⚡ Realtime new order arrived in Dashboard:", newOrder);
-            loadDashboardData(); // Refresh analytics & table live
+            loadDashboardData(); // Refresh analytics & live cards stream
         });
     }
 });
@@ -75,14 +75,71 @@ async function loadDashboardData() {
             if (document.getElementById('kpiPendingCount')) document.getElementById('kpiPendingCount').innerText = data.pending_orders_count;
             if (document.getElementById('kpiCompletedCount')) document.getElementById('kpiCompletedCount').innerText = data.completed_orders_count;
             
-            if (data.recent_orders) renderOrdersTable(data.recent_orders);
+            if (data.recent_orders) {
+                renderLiveOrderCards(data.recent_orders);
+                renderOrdersTable(data.recent_orders);
+            }
         } else {
-            renderDemoOrdersTable();
+            renderDemoOrdersData();
         }
     } catch (e) {
         console.warn('Backend API offline, rendering initial database stats fallback');
-        renderDemoOrdersTable();
+        renderDemoOrdersData();
     }
+}
+
+function renderLiveOrderCards(orders) {
+    const container = document.getElementById('liveOrderCardsGrid');
+    if (!container) return;
+
+    if (!orders || orders.length === 0) {
+        container.innerHTML = `<div class="col-12 text-secondary text-center py-4">No active orders in stream</div>`;
+        return;
+    }
+
+    container.innerHTML = orders.map(o => {
+        const status = (o.status || 'pending').toLowerCase();
+        const itemsText = (o.items || []).map(i => `${i.quantity}x ${i.item_name}`).join(', ') || '1x Gourmet Order';
+
+        let actionBtns = '';
+        if (status === 'pending') {
+            actionBtns = `
+                <button class="btn btn-sm btn-success fw-bold" onclick="updateOrderStatus('${o.id}', 'preparing')">Accept 🍳</button>
+                <button class="btn btn-sm btn-outline-danger" onclick="updateOrderStatus('${o.id}', 'cancelled')">Reject</button>
+            `;
+        } else if (status === 'preparing') {
+            actionBtns = `
+                <button class="btn btn-sm btn-info text-white fw-bold" onclick="updateOrderStatus('${o.id}', 'ready')">Mark Ready ✅</button>
+            `;
+        } else if (status === 'ready') {
+            actionBtns = `
+                <button class="btn btn-sm btn-primary-saas fw-bold" onclick="updateOrderStatus('${o.id}', 'delivered')">Dispatch 🛵</button>
+            `;
+        } else {
+            actionBtns = `<span class="badge bg-secondary py-1.5 px-3">Completed</span>`;
+        }
+
+        return `
+            <div class="col-md-4" id="stream-card-${o.id}">
+                <div class="p-3 bg-dark bg-opacity-50 border border-secondary border-opacity-20 rounded-3 h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="fw-bold text-white fs-5">#${o.order_number}</span>
+                            <span class="badge-status status-${status}">${status.toUpperCase()}</span>
+                        </div>
+                        <div class="text-secondary small mb-2">Customer: <strong>${o.customer?.name || 'WhatsApp Guest'}</strong></div>
+                        <div class="fw-bold text-white mb-2 small">${itemsText}</div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-20 mt-3">
+                        <span class="fw-bold text-success fs-5">₹${o.total_amount}</span>
+                        <div class="d-flex gap-2">
+                            ${actionBtns}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 
 function renderOrdersTable(orders) {
@@ -116,15 +173,28 @@ function renderOrdersTable(orders) {
     }).join('');
 }
 
-function renderDemoOrdersTable() {
-    const tbody = document.getElementById('ordersTableBody');
-    if (!tbody) return;
-
+function renderDemoOrdersData() {
     const demoOrders = [
-        { id: '20000000-0000-0000-0000-000000000001', order_number: 'ORD-20260729-0001', customer: { name: 'Aarav Sharma' }, order_type: 'Delivery', total_amount: '843.00', status: 'preparing' },
-        { id: '20000000-0000-0000-0000-000000000002', order_number: 'ORD-20260729-0002', customer: { name: 'Priya Roy' }, order_type: 'Pickup', total_amount: '610.00', status: 'pending' },
-        { id: '20000000-0000-0000-0000-000000000003', order_number: 'ORD-20260729-0003', customer: { name: 'Karan Patel' }, order_type: 'Delivery', total_amount: '1,240.00', status: 'delivered' }
+        { 
+            id: '20000000-0000-0000-0000-000000000001', 
+            order_number: 'ORD-20260729-0001', 
+            customer: { name: 'Rahul Verma' }, 
+            order_type: 'Delivery', 
+            total_amount: '899.00', 
+            status: 'preparing',
+            items: [{ quantity: 2, item_name: 'Paneer Burgers' }, { quantity: 1, item_name: 'Coke' }]
+        },
+        { 
+            id: '20000000-0000-0000-0000-000000000002', 
+            order_number: 'ORD-20260729-0002', 
+            customer: { name: 'Ananya Sen' }, 
+            order_type: 'Delivery', 
+            total_amount: '420.00', 
+            status: 'pending',
+            items: [{ quantity: 1, item_name: 'Truffle Cheeseburger' }]
+        }
     ];
+    renderLiveOrderCards(demoOrders);
     renderOrdersTable(demoOrders);
 }
 
@@ -147,7 +217,7 @@ async function updateOrderStatus(orderId, newStatus) {
         console.warn('API Offline, status updated locally');
     }
     
-    // Reload dashboard stats and table immediately
+    // Reload dashboard stats & live order stream cards immediately
     loadDashboardData();
 }
 
