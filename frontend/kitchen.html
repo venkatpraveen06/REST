@@ -129,6 +129,9 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/kitchen.js"></script>
     <script>
         lucide.createIcons();
         
@@ -136,20 +139,7 @@
             const clock = document.getElementById('kdsClock');
             if (clock) clock.innerText = new Date().toLocaleTimeString();
         }, 1000);
-
-        function moveTicket(ticketId, targetCol) {
-            alert(`Ticket #${ticketId} moved to ${targetCol.toUpperCase()}`);
-        }
-
-        function testSoundAlert() {
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = ctx.createOscillator();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(880, ctx.currentTime);
-            osc.connect(ctx.destination);
-            osc.start();
-            osc.stop(ctx.currentTime + 0.3);
-        }
     </script>
 </body>
 </html>
+
