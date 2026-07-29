@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function updateClock() {
+    const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+    ? 'http://localhost:8000/api/v1' 
+    : (window.AURADINE_BACKEND_URL || 'https://your-backend.onrender.com/api/v1');
     const clock = document.getElementById('liveClock');
     if (clock) {
         const now = new Date();
