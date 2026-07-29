@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bella Vista Restaurant | Fine Dining & Authentic Flavour</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Bella Vista Restaurant - Fine Dining, Exceptional Taste. Order directly via WhatsApp or reserve a private table. Experience authentic gourmet cuisine.">
+    <meta property="og:title" content="Bella Vista Restaurant | Fine Dining & WhatsApp Ordering">
+    <meta property="og:description" content="Experience authentic flavours prepared with passion. Order on WhatsApp or reserve your table.">
+    <meta property="og:type" content="website">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Luxury Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- ==============================================================================
+         1. STICKY NAVIGATION
+         ============================================================================== -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-luxury fixed-top py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2 font-heading fs-3 fw-bold" href="#">
+                <span style="color: var(--color-gold);">Bella Vista</span>
+                <span class="fs-6 text-white-50 fw-normal">Ristorante</span>
+            </a>
+            
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLuxury">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarLuxury">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#menu">Menu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#specials">Chef Specials</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#reviews">Reviews</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-outline-gold btn-sm d-none d-xl-inline-flex" data-bs-toggle="modal" data-bs-target="#reserveModal">
+                        <i data-lucide="calendar"></i> Reserve Table
+                    </button>
+                    <a href="https://wa.me/919876543210?text=Hi%20Bella%20Vista,%20I'd%20like%20to%20view%20the%20menu" target="_blank" class="btn btn-whatsapp">
+                        <i data-lucide="message-circle"></i> Order on WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==============================================================================
+         2. HERO SECTION
+         ============================================================================== -->
+    <section id="home" class="hero-luxury-section text-center">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <span class="subheading-gold mb-3">★ AWARD WINNING FINE DINING ★</span>
+                    <h1 class="display-1 fw-bold text-white mb-3">Bella Vista Restaurant</h1>
+                    <p class="fs-3 fst-italic text-warning mb-4" style="color: var(--color-gold) !important; font-family: var(--font-heading);">
+                        "Fine Dining, Exceptional Taste."
+                    </p>
+                    <p class="fs-5 text-white-50 max-w-2xl mx-auto mb-5">
+                        Experience authentic flavours prepared with passion by world-class chefs and served with unmatched elegance in a luxurious ambiance.
+                    </p>
+
+                    <div class="d-flex flex-wrap justify-content-center gap-4">
+                        <button class="btn btn-gold btn-lg px-5 py-3" data-bs-toggle="modal" data-bs-target="#reserveModal">
+                            <i data-lucide="utensils"></i> Reserve Table
+                        </button>
+                        <a href="https://wa.me/919876543210?text=Hi" target="_blank" class="btn btn-whatsapp btn-lg px-5 py-3">
+                            <i data-lucide="message-circle"></i> Order on WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="#about" class="scroll-indicator">
+            <i data-lucide="chevron-down" class="w-8 h-8"></i>
+        </a>
+    </section>
+
+    <!-- ==============================================================================
+         3. ABOUT SECTION
+         ============================================================================== -->
+    <section id="about" class="py-5">
+        <div class="container py-5">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80" alt="Master Chef" class="img-fluid rounded-4 shadow-lg border border-warning border-opacity-20">
+                        <div class="position-absolute bottom-0 start-0 m-4 p-4 glass-luxury-card text-center" style="max-width: 220px;">
+                            <div class="display-5 fw-bold text-warning" style="color: var(--color-gold) !important;">25+</div>
+                            <div class="small fw-bold text-dark">Years of Culinary Excellence</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <span class="subheading-gold">OUR HERITAGE STORY</span>
+                    <h2 class="display-5 fw-bold mb-4">A Quarter Century of Passion, Flavour & Elegance</h2>
+                    <p class="text-secondary mb-4">
+                        Founded in 2001, Bella Vista has redefined luxury dining. Every dish tells a story of tradition, innovation, and hand-selected farm-fresh ingredients crafted by world-class culinary artists.
+                    </p>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-6">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="p-3 rounded-circle bg-warning bg-opacity-10 text-warning">
+                                    <i data-lucide="leaf"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold m-0">100% Organic</h6>
+                                    <small class="text-muted">Fresh Ingredients</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="p-3 rounded-circle bg-danger bg-opacity-10 text-danger">
+                                    <i data-lucide="award"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold m-0">Michelin Trained</h6>
+                                    <small class="text-muted">Master Chefs</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#menu" class="btn btn-wine">Explore Our Menu</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================================================================
+         4. SPECIAL FEATURES
+         ============================================================================== -->
+    <section class="py-5 bg-white border-top border-bottom">
+        <div class="container py-4">
+            <div class="row g-4 text-center">
+                <div class="col-md-4 col-lg-2">
+                    <div class="p-4 rounded-4 bg-light h-100">
+                        <i data-lucide="sparkles" class="w-8 h-8 text-warning mb-3"></i>
+                        <h6 class="fw-bold">Fresh Ingredients</h6>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="p-4 rounded-4 bg-light h-100">
+                        <i data-lucide="chef-hat" class="w-8 h-8 text-warning mb-3"></i>
+                        <h6 class="fw-bold">Master Chefs</h6>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="p-4 rounded-4 bg-light h-100">
+                        <i data-lucide="zap" class="w-8 h-8 text-warning mb-3"></i>
+                        <h6 class="fw-bold">Fast Service</h6>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="p-4 rounded-4 bg-light h-100">
+                        <i data-lucide="crown" class="w-8 h-8 text-warning mb-3"></i>
+                        <h6 class="fw-bold">Luxury Dining</h6>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="p-4 rounded-4 bg-light h-100">
+                        <i data-lucide="glass-water" class="w-8 h-8 text-warning mb-3"></i>
+                        <h6 class="fw-bold">Private Events</h6>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="p-4 rounded-4 bg-light h-100">
+                        <i data-lucide="music" class="w-8 h-8 text-warning mb-3"></i>
+                        <h6 class="fw-bold">Live Music</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================================================================
+         5. MENU SECTION
+         ============================================================================== -->
+    <section id="menu" class="py-5">
+        <div class="container py-5">
+            <div class="text-center max-w-2xl mx-auto mb-5">
+                <span class="subheading-gold">CURATED GOURMET SELECTION</span>
+                <h2 class="display-5 fw-bold">Explore Our Signature Menu</h2>
+                <p class="text-secondary">Click "Order on WhatsApp" on any dish to send your order directly to our kitchen staff.</p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="d-flex flex-wrap justify-content-center mb-5">
+                <button class="menu-filter-btn active" onclick="filterMenu('all')">All Menu</button>
+                <button class="menu-filter-btn" onclick="filterMenu('pizza')">Pizza & Pasta</button>
+                <button class="menu-filter-btn" onclick="filterMenu('main')">Main Course</button>
+                <button class="menu-filter-btn" onclick="filterMenu('starters')">Starters</button>
+                <button class="menu-filter-btn" onclick="filterMenu('desserts')">Desserts & Drinks</button>
+            </div>
+
+            <!-- Menu Cards Grid -->
+            <div class="row g-4" id="menuGrid">
+                <!-- Dish 1 -->
+                <div class="col-md-6 col-lg-4 menu-item-card" data-category="pizza">
+                    <div class="menu-card h-100 d-flex flex-column">
+                        <div class="menu-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=600&q=80" alt="Margherita Pizza">
+                            <span class="badge-diet badge-veg">VEG</span>
+                        </div>
+                        <div class="p-4 d-flex flex-column flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="fw-bold m-0">Margherita Supreme Sourdough</h5>
+                                <span class="fs-5 fw-bold text-warning" style="color: var(--color-gold) !important;">₹349</span>
+                            </div>
+                            <p class="text-secondary small mb-4">San Marzano tomatoes, fresh mozzarella, extra virgin olive oil, fresh basil.</p>
+                            <div class="mt-auto">
+                                <a href="https://wa.me/919876543210?text=I'd%20like%20to%20order%20Margherita%20Supreme%20Pizza%20(₹349)" target="_blank" class="btn btn-whatsapp w-100">
+                                    <i data-lucide="message-circle"></i> Order on WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 2 -->
+                <div class="col-md-6 col-lg-4 menu-item-card" data-category="pizza">
+                    <div class="menu-card h-100 d-flex flex-column">
+                        <div class="menu-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&q=80" alt="Farmhouse Pizza">
+                            <span class="badge-diet badge-veg">VEG</span>
+                        </div>
+                        <div class="p-4 d-flex flex-column flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="fw-bold m-0">Artisanal Farmhouse Pizza</h5>
+                                <span class="fs-5 fw-bold text-warning" style="color: var(--color-gold) !important;">₹449</span>
+                            </div>
+                            <p class="text-secondary small mb-4">Bell peppers, sweet corn, black olives, jalapenos & signature liquid cheese.</p>
+                            <div class="mt-auto">
+                                <a href="https://wa.me/919876543210?text=I'd%20like%20to%20order%20Farmhouse%20Pizza%20(₹449)" target="_blank" class="btn btn-whatsapp w-100">
+                                    <i data-lucide="message-circle"></i> Order on WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 3 -->
+                <div class="col-md-6 col-lg-4 menu-item-card" data-category="starters">
+                    <div class="menu-card h-100 d-flex flex-column">
+                        <div class="menu-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80" alt="Chicken Burger">
+                            <span class="badge-diet badge-nonveg">NON-VEG</span>
+                        </div>
+                        <div class="p-4 d-flex flex-column flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="fw-bold m-0">Aura Gourmet Chicken Burger</h5>
+                                <span class="fs-5 fw-bold text-warning" style="color: var(--color-gold) !important;">₹299</span>
+                            </div>
+                            <p class="text-secondary small mb-4">Double grilled chicken patty with truffle aioli, cheddar cheese & potato fries.</p>
+                            <div class="mt-auto">
+                                <a href="https://wa.me/919876543210?text=I'd%20like%20to%20order%20Gourmet%20Chicken%20Burger%20(₹299)" target="_blank" class="btn btn-whatsapp w-100">
+                                    <i data-lucide="message-circle"></i> Order on WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 4 -->
+                <div class="col-md-6 col-lg-4 menu-item-card" data-category="starters">
+                    <div class="menu-card h-100 d-flex flex-column">
+                        <div class="menu-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=600&q=80" alt="Paneer Tikka">
+                            <span class="badge-diet badge-veg">VEG</span>
+                        </div>
+                        <div class="p-4 d-flex flex-column flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="fw-bold m-0">Tandoori Paneer Tikka</h5>
+                                <span class="fs-5 fw-bold text-warning" style="color: var(--color-gold) !important;">₹279</span>
+                            </div>
+                            <p class="text-secondary small mb-4">Cottage cheese cubes marinated in spicy yogurt & roasted over clay oven charcoal.</p>
+                            <div class="mt-auto">
+                                <a href="https://wa.me/919876543210?text=I'd%20like%20to%20order%20Paneer%20Tikka%20(₹279)" target="_blank" class="btn btn-whatsapp w-100">
+                                    <i data-lucide="message-circle"></i> Order on WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 5 -->
+                <div class="col-md-6 col-lg-4 menu-item-card" data-category="main">
+                    <div class="menu-card h-100 d-flex flex-column">
+                        <div class="menu-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=600&q=80" alt="Butter Chicken">
+                            <span class="badge-diet badge-nonveg">NON-VEG</span>
+                        </div>
+                        <div class="p-4 d-flex flex-column flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="fw-bold m-0">Royal Butter Chicken</h5>
+                                <span class="fs-5 fw-bold text-warning" style="color: var(--color-gold) !important;">₹429</span>
+                            </div>
+                            <p class="text-secondary small mb-4">Tender roasted chicken simmered in velvet cashew, tomato cream & aromatic spices.</p>
+                            <div class="mt-auto">
+                                <a href="https://wa.me/919876543210?text=I'd%20like%20to%20order%20Royal%20Butter%20Chicken%20(₹429)" target="_blank" class="btn btn-whatsapp w-100">
+                                    <i data-lucide="message-circle"></i> Order on WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 6 -->
+                <div class="col-md-6 col-lg-4 menu-item-card" data-category="main">
+                    <div class="menu-card h-100 d-flex flex-column">
+                        <div class="menu-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&q=80" alt="Veg Biryani">
+                            <span class="badge-diet badge-veg">VEG</span>
+                        </div>
+                        <div class="p-4 d-flex flex-column flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="fw-bold m-0">Hyderabadi Veg Dum Biryani</h5>
+                                <span class="fs-5 fw-bold text-warning" style="color: var(--color-gold) !important;">₹299</span>
+                            </div>
+                            <p class="text-secondary small mb-4">Fragrant long-grain basmati rice cooked with fresh vegetables, saffron & mint raita.</p>
+                            <div class="mt-auto">
+                                <a href="https://wa.me/919876543210?text=I'd%20like%20to%20order%20Veg%20Biryani%20(₹299)" target="_blank" class="btn btn-whatsapp w-100">
+                                    <i data-lucide="message-circle"></i> Order on WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 7 -->
+                <div class="col-md-6 col-lg-4 menu-item-card" data-category="desserts">
+                    <div class="menu-card h-100 d-flex flex-column">
+                        <div class="menu-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=600&q=80" alt="Chocolate Lava Cake">
+                            <span class="badge-diet badge-veg">VEG</span>
+                        </div>
+                        <div class="p-4 d-flex flex-column flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="fw-bold m-0">Belgian Chocolate Lava Cake</h5>
+                                <span class="fs-5 fw-bold text-warning" style="color: var(--color-gold) !important;">₹199</span>
+                            </div>
+                            <p class="text-secondary small mb-4">Warm dark chocolate molten core served with a scoop of Madagascar vanilla bean ice cream.</p>
+                            <div class="mt-auto">
+                                <a href="https://wa.me/919876543210?text=I'd%20like%20to%20order%20Chocolate%20Lava%20Cake%20(₹199)" target="_blank" class="btn btn-whatsapp w-100">
+                                    <i data-lucide="message-circle"></i> Order on WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 8 -->
+                <div class="col-md-6 col-lg-4 menu-item-card" data-category="desserts">
+                    <div class="menu-card h-100 d-flex flex-column">
+                        <div class="menu-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=600&q=80" alt="Cold Coffee">
+                            <span class="badge-diet badge-veg">VEG</span>
+                        </div>
+                        <div class="p-4 d-flex flex-column flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="fw-bold m-0">Signature Hazelnut Cold Coffee</h5>
+                                <span class="fs-5 fw-bold text-warning" style="color: var(--color-gold) !important;">₹149</span>
+                            </div>
+                            <p class="text-secondary small mb-4">Double espresso shot blended with rich milk, hazelnut syrup & vanilla ice cream scoop.</p>
+                            <div class="mt-auto">
+                                <a href="https://wa.me/919876543210?text=I'd%20like%20to%20order%20Cold%20Coffee%20(₹149)" target="_blank" class="btn btn-whatsapp w-100">
+                                    <i data-lucide="message-circle"></i> Order on WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================================================================
+         6. CHEF SPECIALS
+         ============================================================================== -->
+    <section id="specials" class="py-5 bg-dark text-white">
+        <div class="container py-5">
+            <div class="text-center max-w-2xl mx-auto mb-5">
+                <span class="subheading-gold">EXCLUSIVE SELECTION</span>
+                <h2 class="display-5 fw-bold text-white">Chef's Signature Creations</h2>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="dark-glass-card p-4 h-100 text-center">
+                        <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400&q=80" class="rounded-4 img-fluid mb-3" style="height: 180px; object-fit: cover;">
+                        <h5 class="fw-bold text-white mb-2">Chef's Special Pasta</h5>
+                        <p class="text-white-50 small mb-3">Truffle Alfredo Fettuccine with wild mushrooms & shaved parmesan.</p>
+                        <div class="fs-5 fw-bold text-warning mb-3">₹499</div>
+                        <a href="https://wa.me/919876543210?text=Order%20Chef's%20Special%20Pasta" target="_blank" class="btn btn-whatsapp btn-sm w-100">Order on WhatsApp</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="dark-glass-card p-4 h-100 text-center">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80" class="rounded-4 img-fluid mb-3" style="height: 180px; object-fit: cover;">
+                        <h5 class="fw-bold text-white mb-2">Signature Ribeye Steak</h5>
+                        <p class="text-white-50 small mb-3">Prime cuts grilled to perfection with herb butter & red wine reduction.</p>
+                        <div class="fs-5 fw-bold text-warning mb-3">₹899</div>
+                        <a href="https://wa.me/919876543210?text=Order%20Signature%20Ribeye%20Steak" target="_blank" class="btn btn-whatsapp btn-sm w-100">Order on WhatsApp</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="dark-glass-card p-4 h-100 text-center">
+                        <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=400&q=80" class="rounded-4 img-fluid mb-3" style="height: 180px; object-fit: cover;">
+                        <h5 class="fw-bold text-white mb-2">Seafood Platter</h5>
+                        <p class="text-white-50 small mb-3">Grilled tiger prawns, lobster tail & calamari served with lemon butter.</p>
+                        <div class="fs-5 fw-bold text-warning mb-3">₹1,299</div>
+                        <a href="https://wa.me/919876543210?text=Order%20Seafood%20Platter" target="_blank" class="btn btn-whatsapp btn-sm w-100">Order on WhatsApp</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="dark-glass-card p-4 h-100 text-center">
+                        <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&q=80" class="rounded-4 img-fluid mb-3" style="height: 180px; object-fit: cover;">
+                        <h5 class="fw-bold text-white mb-2">Royal Awadhi Biryani</h5>
+                        <p class="text-white-50 small mb-3">Slow-cooked dum lamb biryani infused with kewra water & royal spices.</p>
+                        <div class="fs-5 fw-bold text-warning mb-3">₹649</div>
+                        <a href="https://wa.me/919876543210?text=Order%20Royal%20Awadhi%20Biryani" target="_blank" class="btn btn-whatsapp btn-sm w-100">Order on WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================================================================
+         7. GALLERY
+         ============================================================================== -->
+    <section id="gallery" class="py-5">
+        <div class="container py-5">
+            <div class="text-center max-w-2xl mx-auto mb-5">
+                <span class="subheading-gold">ATMOSPHERE & AMBIANCE</span>
+                <h2 class="display-5 fw-bold">Bella Vista Gallery</h2>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80" alt="Restaurant Interior">
+                        <div class="gallery-overlay"><h5 class="text-white m-0">Luxury Interior</h5></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=600&q=80" alt="Dining Area">
+                        <div class="gallery-overlay"><h5 class="text-white m-0">Private Dining Area</h5></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&q=80" alt="Chef Cooking">
+                        <div class="gallery-overlay"><h5 class="text-white m-0">Chef in Action</h5></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80" alt="Food Photography">
+                        <div class="gallery-overlay"><h5 class="text-white m-0">Gourmet Plating</h5></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=600&q=80" alt="Family Dining">
+                        <div class="gallery-overlay"><h5 class="text-white m-0">Family Gatherings</h5></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1537047902294-62a40c20a6ae?w=600&q=80" alt="Outdoor Seating">
+                        <div class="gallery-overlay"><h5 class="text-white m-0">Romantic Outdoor Seating</h5></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================================================================
+         8. WHY CHOOSE US
+         ============================================================================== -->
+    <section class="py-5 bg-white border-top border-bottom">
+        <div class="container py-5">
+            <div class="text-center max-w-2xl mx-auto mb-5">
+                <span class="subheading-gold">WHY BELLA VISTA</span>
+                <h2 class="display-5 fw-bold">Unmatched Excellence in Every Sense</h2>
+            </div>
+            <div class="row g-4 text-center">
+                <div class="col-md-4">
+                    <div class="p-4 rounded-4 bg-light">
+                        <div class="p-3 bg-warning bg-opacity-10 text-warning rounded-circle d-inline-block mb-3">
+                            <i data-lucide="leaf"></i>
+                        </div>
+                        <h5 class="fw-bold">100% Farm Fresh</h5>
+                        <p class="text-secondary small">Locally sourced organic produce delivered daily to our kitchens.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4 rounded-4 bg-light">
+                        <div class="p-3 bg-warning bg-opacity-10 text-warning rounded-circle d-inline-block mb-3">
+                            <i data-lucide="award"></i>
+                        </div>
+                        <h5 class="fw-bold">Michelin Star Chefs</h5>
+                        <p class="text-secondary small">Crafted by culinary artists with international fine dining experience.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4 rounded-4 bg-light">
+                        <div class="p-3 bg-warning bg-opacity-10 text-warning rounded-circle d-inline-block mb-3">
+                            <i data-lucide="shield-check"></i>
+                        </div>
+                        <h5 class="fw-bold">Highest Hygiene Standards</h5>
+                        <p class="text-secondary small">5-Star food safety certified clean preparation and packaging.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================================================================
+         9. CUSTOMER REVIEWS
+         ============================================================================== -->
+    <section id="reviews" class="py-5">
+        <div class="container py-5">
+            <div class="text-center max-w-2xl mx-auto mb-5">
+                <span class="subheading-gold">TESTIMONIALS</span>
+                <h2 class="display-5 fw-bold">Loved by Connoisseurs</h2>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="glass-luxury-card p-4 h-100">
+                        <div class="text-warning mb-3">★★★★★</div>
+                        <p class="text-secondary fst-italic mb-4">"The best restaurant experience we've ever had. Ordering via WhatsApp was incredibly seamless!"</p>
+                        <div class="fw-bold">Sophia Martinez</div>
+                        <small class="text-muted">Food Critic</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="glass-luxury-card p-4 h-100">
+                        <div class="text-warning mb-3">★★★★★</div>
+                        <p class="text-secondary fst-italic mb-4">"Delicious food, outstanding service, and the WhatsApp ordering bot generated our receipt in 5 seconds."</p>
+                        <div class="fw-bold">Rahul Verma</div>
+                        <small class="text-muted">Regular Guest</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="glass-luxury-card p-4 h-100">
+                        <div class="text-warning mb-3">★★★★★</div>
+                        <p class="text-secondary fst-italic mb-4">"Highly recommended for family dinners and private celebrations. The truffle pasta is heavenly."</p>
+                        <div class="fw-bold">Emily Watson</div>
+                        <small class="text-muted">Event Host</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================================================================
+         10. STATISTICS COUNTER
+         ============================================================================== -->
+    <section class="py-5 bg-dark text-white">
+        <div class="container py-4 text-center">
+            <div class="row g-4">
+                <div class="col-6 col-md-3">
+                    <div class="display-4 fw-bold text-warning" style="color: var(--color-gold) !important;">25+</div>
+                    <div class="text-white-50">Years Experience</div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="display-4 fw-bold text-warning" style="color: var(--color-gold) !important;">50+</div>
+                    <div class="text-white-50">Expert Chefs</div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="display-4 fw-bold text-warning" style="color: var(--color-gold) !important;">20K+</div>
+                    <div class="text-white-50">Happy Customers</div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="display-4 fw-bold text-warning" style="color: var(--color-gold) !important;">100+</div>
+                    <div class="text-white-50">Gourmet Menu Items</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================================================================
+         11. SPECIAL OFFERS
+         ============================================================================== -->
+    <section class="py-5">
+        <div class="container py-5">
+            <div class="text-center max-w-2xl mx-auto mb-5">
+                <span class="subheading-gold">LIMITED TIME PROMOTIONS</span>
+                <h2 class="display-5 fw-bold">Exclusive Dining Offers</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card border-warning rounded-4 overflow-hidden shadow-sm h-100">
+                        <div class="card-body p-4 text-center">
+                            <span class="badge bg-danger mb-3">20% OFF</span>
+                            <h4 class="fw-bold">Weekend Royal Buffet</h4>
+                            <p class="text-secondary small">Unlimited gourmet spread every Saturday & Sunday afternoon.</p>
+                            <a href="https://wa.me/919876543210?text=Claim%20Weekend%20Buffet%20Offer" target="_blank" class="btn btn-gold btn-sm">Claim Offer on WhatsApp</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-warning rounded-4 overflow-hidden shadow-sm h-100">
+                        <div class="card-body p-4 text-center">
+                            <span class="badge bg-success mb-3">FREE DESSERT</span>
+                            <h4 class="fw-bold">Family Feast Combo</h4>
+                            <p class="text-secondary small">Get complimentary Chocolate Lava Cake with orders above ₹1,500.</p>
+                            <a href="https://wa.me/919876543210?text=Claim%20Family%20Combo" target="_blank" class="btn btn-gold btn-sm">Claim Offer on WhatsApp</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-warning rounded-4 overflow-hidden shadow-sm h-100">
+                        <div class="card-body p-4 text-center">
+                            <span class="badge bg-warning text-dark mb-3">FREE CAKE</span>
+                            <h4 class="fw-bold">Birthday Celebration</h4>
+                            <p class="text-secondary small">Celebrate your special day with us and get a complimentary chef cake.</p>
+                            <a href="https://wa.me/919876543210?text=Book%20Birthday%20Celebration" target="_blank" class="btn btn-gold btn-sm">Claim Offer on WhatsApp</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================================================================
+         12. HOW IT WORKS
+         ============================================================================== -->
+    <section class="py-5 bg-white border-top border-bottom">
+        <div class="container py-5 text-center">
+            <span class="subheading-gold">SIMPLE 6-STEP EXPERIENCE</span>
+            <h2 class="display-5 fw-bold mb-5">How WhatsApp Ordering Works</h2>
+            <div class="row g-4">
+                <div class="col-6 col-md-2">
+                    <div class="p-3 bg-light rounded-4">
+                        <div class="fw-bold fs-3 text-warning mb-2">1</div>
+                        <h6 class="fw-bold">Open WhatsApp</h6>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="p-3 bg-light rounded-4">
+                        <div class="fw-bold fs-3 text-warning mb-2">2</div>
+                        <h6 class="fw-bold">Send "Hi"</h6>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="p-3 bg-light rounded-4">
+                        <div class="fw-bold fs-3 text-warning mb-2">3</div>
+                        <h6 class="fw-bold">Browse Menu</h6>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="p-3 bg-light rounded-4">
+                        <div class="fw-bold fs-3 text-warning mb-2">4</div>
+                        <h6 class="fw-bold">Place Order</h6>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="p-3 bg-light rounded-4">
+                        <div class="fw-bold fs-3 text-warning mb-2">5</div>
+                        <h6 class="fw-bold">Pay Securely</h6>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="p-3 bg-light rounded-4">
+                        <div class="fw-bold fs-3 text-warning mb-2">6</div>
+                        <h6 class="fw-bold">Food Ready</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================================================================
+         13. WHATSAPP DEMO SECTION
+         ============================================================================== -->
+    <section class="py-5 bg-dark text-white">
+        <div class="container py-5">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <span class="subheading-gold">INTERACTIVE DEMO</span>
+                    <h2 class="display-5 fw-bold text-white mb-4">See How Easy It Is for Customers</h2>
+                    <p class="text-white-50 mb-4">
+                        No app installation needed. Customers order directly inside WhatsApp in seconds with automated AI confirmation and payment links.
+                    </p>
+                    <a href="https://wa.me/919876543210?text=Hi" target="_blank" class="btn btn-whatsapp btn-lg">
+                        <i data-lucide="message-circle"></i> Try Live WhatsApp Demo
+                    </a>
+                </div>
+
+                <div class="col-lg-6">
+                    <!-- Mobile Mockup Animated Phone -->
+                    <div class="phone-mockup">
+                        <div class="phone-header">
+                            <span class="rounded-circle bg-success p-2"></span>
+                            <div>
+                                <div class="fw-bold small">Bella Vista Restaurant</div>
+                                <div style="font-size: 0.7rem; color: #34d399;">Online 24/7 Bot</div>
+                            </div>
+                        </div>
+                        <div class="phone-body">
+                            <div class="wa-msg wa-in">Hi</div>
+                            <div class="wa-msg wa-out">Welcome to Bella Vista Restaurant! 🍽️<br><br>1. View Menu<br>2. Today's Special<br>3. Order Food<br>4. Track Order</div>
+                            <div class="wa-msg wa-in">I need one Paneer Pizza and one Cold Coffee.</div>
+                            <div class="wa-msg wa-out">Added 1x Farmhouse Paneer Pizza + 1x Cold Coffee to cart 🛒<br><br><strong>Total: ₹598</strong><br><button class="btn btn-sm btn-success w-100 mt-1 py-0">Pay Now 💳</button></div>
+                            <div class="wa-msg wa-out">🎉 Order Confirmed! Estimated Time: 25 Minutes.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================================================================
+         14. TABLE RESERVATION MODAL & SECTION
+         ============================================================================== -->
+    <section id="reservation" class="py-5">
+        <div class="container py-5">
+            <div class="glass-luxury-card p-5 max-w-3xl mx-auto">
+                <div class="text-center mb-4">
+                    <span class="subheading-gold">BOOK YOUR TABLE</span>
+                    <h2 class="display-6 fw-bold">Online Table Reservation</h2>
+                </div>
+                <form id="reservationForm">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Full Name</label>
+                            <input type="text" class="form-control" placeholder="John Doe" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Phone Number</label>
+                            <input type="tel" class="form-control" placeholder="+91 9876543210" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Guests</label>
+                            <select class="form-select">
+                                <option>2 Guests</option>
+                                <option>4 Guests</option>
+                                <option>6 Guests</option>
+                                <option>8+ Guests (VIP Room)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Date</label>
+                            <input type="date" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Time</label>
+                            <input type="time" class="form-control" required>
+                        </div>
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="btn btn-gold btn-lg px-5">Confirm Reservation</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation Modal -->
+    <div class="modal fade" id="reserveModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-luxury-card p-4">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title font-heading fw-bold">Reserve a VIP Table</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-secondary small mb-3">Our hostess will confirm your table booking instantly via WhatsApp.</p>
+                    <input type="text" class="form-control mb-3" placeholder="Your Name">
+                    <input type="tel" class="form-control mb-3" placeholder="WhatsApp Phone Number">
+                    <button class="btn btn-gold w-100" data-bs-dismiss="modal" onclick="alert('Table Reservation Request Sent via WhatsApp!')">Send Booking Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==============================================================================
+         15. LOCATION & CONTACT
+         ============================================================================== -->
+    <section id="contact" class="py-5 bg-white border-top">
+        <div class="container py-5">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-5">
+                    <span class="subheading-gold">VISIT US</span>
+                    <h2 class="display-5 fw-bold mb-4">Location & Hours</h2>
+                    <div class="d-flex flex-column gap-3 mb-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <i data-lucide="map-pin" class="text-warning w-6 h-6"></i>
+                            <div><strong>Address:</strong> 100 Feet Road, Indiranagar, Bengaluru, 560038</div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <i data-lucide="phone" class="text-warning w-6 h-6"></i>
+                            <div><strong>Phone:</strong> +91 98765 43210</div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <i data-lucide="clock" class="text-warning w-6 h-6"></i>
+                            <div><strong>Opening Hours:</strong> 10:00 AM - 11:00 PM (Everyday)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="rounded-4 overflow-hidden shadow-lg border">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.974447385966!2d77.640827114822!3d12.973129990854897!2m3!1f0!0f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae16a70a8d56a3%3A0x6b80173e6d89ef23!2sIndiranagar%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1650000000000!5m2!1sen!2sin" width="100%" height="380" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================================================================
+         16. FOOTER
+         ============================================================================== -->
+    <footer class="luxury-footer py-5">
+        <div class="container">
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4">
+                    <a class="font-heading fs-3 fw-bold text-white text-decoration-none d-block mb-3" href="#">
+                        <span style="color: var(--color-gold);">Bella Vista</span> Restaurant
+                    </a>
+                    <p class="small text-white-50">Fine Dining, Exceptional Taste. Order directly via WhatsApp or reserve your private dining experience.</p>
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="fw-bold text-white mb-3">Quick Links</h6>
+                    <ul class="list-unstyled small d-flex flex-column gap-2">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#menu">Menu</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="fw-bold text-white mb-3">Legal</h6>
+                    <ul class="list-unstyled small d-flex flex-column gap-2">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="dashboard.html">SaaS Owner Login</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h6 class="fw-bold text-white mb-3">Connect With Us</h6>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="btn btn-outline-gold btn-sm"><i data-lucide="instagram"></i></a>
+                        <a href="#" class="btn btn-outline-gold btn-sm"><i data-lucide="facebook"></i></a>
+                        <a href="https://wa.me/919876543210" target="_blank" class="btn btn-whatsapp btn-sm"><i data-lucide="message-circle"></i> WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center pt-4 border-top border-secondary border-opacity-20 small text-white-50">
+                © 2026 Bella Vista Restaurant. Powered by AuraDine AI WhatsApp SaaS Engine.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript & Interactive Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function filterMenu(category) {
+            document.querySelectorAll('.menu-filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const cards = document.querySelectorAll('.menu-item-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        document.getElementById('reservationForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you! Your table reservation request has been received. Our hostess will contact you on WhatsApp.');
+        });
+    </script>
+</body>
+</html>
