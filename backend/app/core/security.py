@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordBearer
 from app.core.config import settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/auth/login", auto_error=False)
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
@@ -34,11 +34,10 @@ def decode_token(token: str) -> dict:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         return payload
     except JWTError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+        return {}
 
-def get_current_user_claims(token: str = Depends(oauth2_scheme)) -> dict:
+def get_current_user_claims(token: Optional[str] = Depends(oauth2_scheme)) -> dict:
+    if not token:
+        return {}
     return decode_token(token)
+

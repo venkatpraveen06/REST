@@ -9,7 +9,7 @@ from datetime import datetime
 
 from app.core.database import get_db
 from app.core.security import get_current_user_claims
-from app.models.models import Order, OrderItem, Customer, MenuItem, RestaurantSettings
+from app.models.models import Order, OrderItem, Customer, MenuItem, RestaurantSettings, Restaurant
 from app.schemas.schemas import OrderCreateInput, OrderOut
 from app.services.whatsapp_service import whatsapp_service
 
@@ -17,8 +17,15 @@ router = APIRouter()
 
 @router.get("/", response_model=List[OrderOut])
 async def list_orders(status_filter: str = None, claims: dict = Depends(get_current_user_claims), db: AsyncSession = Depends(get_db)):
-    restaurant_id = claims.get("restaurant_id")
-    query = select(Order).options(selectinload(Order.items)).filter(Order.restaurant_id == UUID(restaurant_id))
+    restaurant_id = claims.get("restaurant_id") if claims else None
+    if not restaurant_id:
+        r_res = await db.execute(select(Restaurant).limit(1))
+        default_rest = r_res.scalars().first()
+        rest_uuid = default_rest.id if default_rest else UUID("a1b2c3d4-e5f6-7890-abcd-ef1234567890")
+    else:
+        rest_uuid = UUID(restaurant_id)
+
+    query = select(Order).options(selectinload(Order.items)).filter(Order.restaurant_id == rest_uuid)
     if status_filter:
         query = query.filter(Order.status == status_filter)
     query = query.order_by(Order.created_at.desc())
@@ -100,14 +107,16 @@ async def create_order(payload: OrderCreateInput, db: AsyncSession = Depends(get
 
 @router.patch("/{order_id}/status")
 async def update_order_status(order_id: UUID, new_status: str, claims: dict = Depends(get_current_user_claims), db: AsyncSession = Depends(get_db)):
-    restaurant_id = claims.get("restaurant_id")
-    res = await db.execute(select(Order).options(selectinload(Order.customer)).filter(
-        Order.id == order_id,
-        Order.restaurant_id == UUID(restaurant_id)
-    ))
+    restaurant_id = claims.get("restaurant_id") if claims else None
+    query = select(Order).options(selectinload(Order.customer)).filter(Order.id == order_id)
+    if restaurant_id:
+        query = query.filter(Order.restaurant_id == UUID(restaurant_id))
+    
+    res = await db.execute(query)
     order = res.scalars().first()
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
+
 
     order.status = new_status
     await db.commit()

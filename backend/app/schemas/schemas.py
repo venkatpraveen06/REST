@@ -118,11 +118,11 @@ class OrderOut(BaseModel):
     packing_charge: float
     total_amount: float
     special_instructions: Optional[str]
-    created_at: datetime
-    items: List[OrderItemOut]
+    items: List[OrderItemOut] = []
     
     class Config:
         from_attributes = True
+
 
 # AI Schemas
 class AIIntentRequest(BaseModel):
