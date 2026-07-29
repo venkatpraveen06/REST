@@ -202,3 +202,31 @@ class Payment(Base):
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
 
     order = relationship("Order", back_populates="payment")
+
+
+class Review(Base):
+    __tablename__ = "reviews"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    restaurant_id = Column(UUID(as_uuid=True), ForeignKey("restaurants.id", ondelete="CASCADE"), nullable=False)
+    order_id = Column(UUID(as_uuid=True), ForeignKey("orders.id", ondelete="CASCADE"), unique=True, nullable=True)
+    customer_id = Column(UUID(as_uuid=True), ForeignKey("customers.id", ondelete="CASCADE"), nullable=True)
+    rating = Column(Integer, nullable=False)
+    comment = Column(Text, nullable=True)
+    whatsapp_feedback_raw = Column(Text, nullable=True)
+    created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
+
+
+class Ingredient(Base):
+    __tablename__ = "ingredients"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    restaurant_id = Column(UUID(as_uuid=True), ForeignKey("restaurants.id", ondelete="CASCADE"), nullable=False)
+    name = Column(String(255), nullable=False)
+    unit = Column(String(50), nullable=False)
+    current_stock = Column(Numeric(10, 2), default=0.00)
+    min_threshold = Column(Numeric(10, 2), default=5.00)
+    cost_per_unit = Column(Numeric(10, 2), default=0.00)
+    created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
+    updated_at = Column(DateTime(timezone=True), default=datetime.utcnow)
+
