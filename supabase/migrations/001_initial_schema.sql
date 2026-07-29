@@ -7,64 +7,79 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
--- Enum Types
-CREATE TYPE user_role AS ENUM (
-    'super_admin',
-    'restaurant_owner',
-    'manager',
-    'cashier',
-    'kitchen_staff',
-    'waiter',
-    'delivery_staff',
-    'customer'
-);
+-- Enum Types (Safely created if not existing)
+DO $$ BEGIN
+    CREATE TYPE user_role AS ENUM (
+        'super_admin',
+        'restaurant_owner',
+        'manager',
+        'cashier',
+        'kitchen_staff',
+        'waiter',
+        'delivery_staff',
+        'customer'
+    );
+EXCEPTION WHEN duplicate_object THEN null; END $$;
 
-CREATE TYPE order_status AS ENUM (
-    'pending',
-    'confirmed',
-    'preparing',
-    'ready',
-    'out_for_delivery',
-    'delivered',
-    'cancelled',
-    'rejected'
-);
+DO $$ BEGIN
+    CREATE TYPE order_status AS ENUM (
+        'pending',
+        'confirmed',
+        'preparing',
+        'ready',
+        'out_for_delivery',
+        'delivered',
+        'cancelled',
+        'rejected'
+    );
+EXCEPTION WHEN duplicate_object THEN null; END $$;
 
-CREATE TYPE order_type AS ENUM (
-    'delivery',
-    'pickup',
-    'dine_in'
-);
+DO $$ BEGIN
+    CREATE TYPE order_type AS ENUM (
+        'delivery',
+        'pickup',
+        'dine_in'
+    );
+EXCEPTION WHEN duplicate_object THEN null; END $$;
 
-CREATE TYPE payment_status AS ENUM (
-    'pending',
-    'authorized',
-    'captured',
-    'failed',
-    'refunded'
-);
+DO $$ BEGIN
+    CREATE TYPE payment_status AS ENUM (
+        'pending',
+        'authorized',
+        'captured',
+        'failed',
+        'refunded'
+    );
+EXCEPTION WHEN duplicate_object THEN null; END $$;
 
-CREATE TYPE payment_gateway AS ENUM (
-    'razorpay',
-    'stripe',
-    'cod',
-    'upi'
-);
+DO $$ BEGIN
+    CREATE TYPE payment_gateway AS ENUM (
+        'razorpay',
+        'stripe',
+        'cod',
+        'upi'
+    );
+EXCEPTION WHEN duplicate_object THEN null; END $$;
 
-CREATE TYPE dietary_type AS ENUM (
-    'veg',
-    'non_veg',
-    'jain',
-    'vegan',
-    'egg'
-);
+DO $$ BEGIN
+    CREATE TYPE dietary_type AS ENUM (
+        'veg',
+        'non_veg',
+        'jain',
+        'vegan',
+        'egg'
+    );
+EXCEPTION WHEN duplicate_object THEN null; END $$;
 
-CREATE TYPE spice_level AS ENUM (
-    'mild',
-    'medium',
-    'spicy',
-    'extra_spicy'
-);
+DO $$ BEGIN
+    CREATE TYPE spice_level AS ENUM (
+        'mild',
+        'medium',
+        'spicy',
+        'extra_spicy'
+    );
+EXCEPTION WHEN duplicate_object THEN null; END $$;
+
 
 -- ==============================================================================
 -- 1. RESTAURANTS & TENANCY

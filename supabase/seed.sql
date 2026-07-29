@@ -46,7 +46,7 @@ VALUES (
 -- 4. Insert Owner User
 INSERT INTO public.users (id, restaurant_id, email, password_hash, full_name, phone_number, role)
 VALUES (
-    'u1b2c3d4-e5f6-7890-abcd-ef1234567892',
+    '11b2c3d4-e5f6-7890-abcd-ef1234567892',
     'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
     'admin@aurabistro.com',
     '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeg6Lruj3vjPGga31lW', -- hashed 'password123'
@@ -68,18 +68,18 @@ ON CONFLICT (id) DO NOTHING;
 -- 6. Insert Menu Items
 INSERT INTO public.menu_items (id, restaurant_id, category_id, name, slug, description, price, dietary_type, spice_level, preparation_time_minutes, is_special, is_bestseller, image_url)
 VALUES
-('m2010000-0000-0000-0000-000000000001', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'c1010000-0000-0000-0000-000000000001', 'Crispy Paneer Tikka Pops', 'paneer-tikka-pops', 'Cottage cheese cubes tossed in spicy tandoori marinade', 280.00, 'veg', 'spicy', 15, true, true, 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=500'),
-('m2020000-0000-0000-0000-000000000002', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'c1010000-0000-0000-0000-000000000001', 'Fiery Chicken Wings (6pcs)', 'fiery-chicken-wings', 'Glazed wings with ghost pepper honey sauce', 340.00, 'non_veg', 'extra_spicy', 18, false, true, 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=500'),
-('m2030000-0000-0000-0000-000000000003', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'c1020000-0000-0000-0000-000000000002', 'Aura Smoky Truffle Cheeseburger', 'truffle-cheeseburger', 'Double smash chicken patty with black truffle aioli & cheddar', 420.00, 'non_veg', 'medium', 20, true, true, 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500'),
-('m2040000-0000-0000-0000-000000000004', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'c1020000-0000-0000-0000-000000000002', 'Garden Green Goddess Burger', 'veggie-burger', 'Crispy quinoa and bean patty with caramelized onion sauce', 320.00, 'veg', 'mild', 15, false, false, 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=500'),
-('m2050000-0000-0000-0000-000000000005', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'c1030000-0000-0000-0000-000000000003', 'Margherita Supreme Sourdough', 'margherita-pizza', 'San Marzano tomato, fresh mozzarella, fresh basil leaves', 390.00, 'veg', 'mild', 20, false, true, 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=500'),
-('m2060000-0000-0000-0000-000000000006', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'c1040000-0000-0000-0000-000000000004', 'Belgium Dark Chocolate Thickshake', 'chocolate-shake', 'Rich dark cocoa blended with cream and fudge brownie', 220.00, 'veg', 'mild', 10, false, true, 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500')
+('f2010000-0000-0000-0000-000000000001', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'c1010000-0000-0000-0000-000000000001', 'Crispy Paneer Tikka Pops', 'paneer-tikka-pops', 'Cottage cheese cubes tossed in spicy tandoori marinade', 280.00, 'veg', 'spicy', 15, true, true, 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=500'),
+('f2020000-0000-0000-0000-000000000002', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'c1010000-0000-0000-0000-000000000001', 'Fiery Chicken Wings (6pcs)', 'fiery-chicken-wings', 'Glazed wings with ghost pepper honey sauce', 340.00, 'non_veg', 'extra_spicy', 18, false, true, 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=500'),
+('f2030000-0000-0000-0000-000000000003', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'c1020000-0000-0000-0000-000000000002', 'Aura Smoky Truffle Cheeseburger', 'truffle-cheeseburger', 'Double smash chicken patty with black truffle aioli & cheddar', 420.00, 'non_veg', 'medium', 20, true, true, 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500'),
+('f2040000-0000-0000-0000-000000000004', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'c1020000-0000-0000-0000-000000000002', 'Garden Green Goddess Burger', 'veggie-burger', 'Crispy quinoa and bean patty with caramelized onion sauce', 320.00, 'veg', 'mild', 15, false, false, 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=500'),
+('f2050000-0000-0000-0000-000000000005', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'c1030000-0000-0000-0000-000000000003', 'Margherita Supreme Sourdough', 'margherita-pizza', 'San Marzano tomato, fresh mozzarella, fresh basil leaves', 390.00, 'veg', 'mild', 20, false, true, 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=500'),
+('f2060000-0000-0000-0000-000000000006', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'c1040000-0000-0000-0000-000000000004', 'Belgium Dark Chocolate Thickshake', 'chocolate-shake', 'Rich dark cocoa blended with cream and fudge brownie', 220.00, 'veg', 'mild', 10, false, true, 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500')
 ON CONFLICT (id) DO NOTHING;
 
 -- 7. Insert Sample Customer
 INSERT INTO public.customers (id, restaurant_id, whatsapp_number, name, loyalty_points, total_orders, total_spent, dietary_preference)
 VALUES (
-    'cust0000-0000-0000-0000-000000000001',
+    '10000000-0000-0000-0000-000000000001',
     'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
     '+919988776655',
     'Aarav Sharma',
@@ -92,10 +92,10 @@ VALUES (
 -- 8. Insert Sample Active Order for Kitchen Display
 INSERT INTO public.orders (id, restaurant_id, branch_id, customer_id, order_number, status, order_type, delivery_address, subtotal, tax_amount, delivery_fee, packing_charge, total_amount, special_instructions)
 VALUES (
-    'ord00000-0000-0000-0000-000000000001',
+    '20000000-0000-0000-0000-000000000001',
     'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
     'b1b2c3d4-e5f6-7890-abcd-ef1234567891',
-    'cust0000-0000-0000-0000-000000000001',
+    '10000000-0000-0000-0000-000000000001',
     'ORD-20260729-0001',
     'preparing',
     'delivery',
@@ -110,6 +110,8 @@ VALUES (
 
 INSERT INTO public.order_items (order_id, menu_item_id, item_name, quantity, unit_price, total_price, special_notes)
 VALUES 
-('ord00000-0000-0000-0000-000000000001', 'm2030000-0000-0000-0000-000000000003', 'Aura Smoky Truffle Cheeseburger', 1, 420.00, 420.00, 'Extra sauce'),
-('ord00000-0000-0000-0000-000000000001', 'm2020000-0000-0000-0000-000000000002', 'Fiery Chicken Wings (6pcs)', 1, 340.00, 340.00, 'Medium spicy')
+('20000000-0000-0000-0000-000000000001', 'f2030000-0000-0000-0000-000000000003', 'Aura Smoky Truffle Cheeseburger', 1, 420.00, 420.00, 'Extra sauce'),
+('20000000-0000-0000-0000-000000000001', 'f2020000-0000-0000-0000-000000000002', 'Fiery Chicken Wings (6pcs)', 1, 340.00, 340.00, 'Medium spicy')
 ON CONFLICT (id) DO NOTHING;
+
+
