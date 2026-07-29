@@ -1,6 +1,6 @@
-import os
-from typing import List, Optional
+from typing import List, Optional, Union
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import field_validator
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "AuraDine AI"
@@ -15,7 +15,21 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "super_secret_jwt_key_auradine_ai_2026_production_change_this"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7 # 7 days
-    ALLOWED_ORIGINS: List[str] = ["*"]
+    ALLOWED_ORIGINS: Union[List[str], str] = ["*"]
+
+    @field_validator("ALLOWED_ORIGINS", mode="before")
+    @classmethod
+    def parse_allowed_origins(cls, v):
+        if isinstance(v, str):
+            if v.startswith("[") and v.endswith("]"):
+                import json
+                try:
+                    return json.loads(v)
+                except Exception:
+                    pass
+            return [origin.strip() for origin in v.split(",") if origin.strip()]
+        return v
+
     
     # Supabase Configuration
     SUPABASE_URL: str = "https://your-supabase-project.supabase.co"
