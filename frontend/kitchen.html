@@ -36,24 +36,10 @@
             <div class="col-md-3">
                 <div class="kanban-col">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="fw-bold text-warning m-0 uppercase tracking-wider"><i data-lucide="clock" class="d-inline w-4 me-1"></i> PENDING (2)</h6>
-                        <span class="badge bg-warning text-dark font-monospace">Needs Acceptance</span>
+                        <h6 class="fw-bold text-warning m-0 uppercase tracking-wider"><i data-lucide="clock" class="d-inline w-4 me-1"></i> PENDING</h6>
+                        <span class="badge bg-warning text-dark font-monospace" id="count-pending">0 Orders</span>
                     </div>
-
-                    <div class="kanban-card" id="ticket-1027">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="fw-bold text-white fs-5">#ORD-1027</span>
-                            <span class="text-warning small font-monospace"><i data-lucide="timer" class="d-inline w-3"></i> 02:15</span>
-                        </div>
-                        <div class="small text-secondary mb-2">Customer: <strong>Karan P.</strong> (Pickup)</div>
-                        <div class="p-2 bg-dark rounded-3 mb-3 border border-secondary border-opacity-20">
-                            <ul class="list-unstyled m-0 text-white small">
-                                <li><strong>1x</strong> Margherita Sourdough Pizza</li>
-                                <li><strong>1x</strong> Dark Chocolate Shake</li>
-                            </ul>
-                        </div>
-                        <button class="btn btn-primary-saas btn-sm w-100" onclick="moveTicket('1027', 'preparing')">Start Prep 🍳</button>
-                    </div>
+                    <div id="col-pending"></div>
                 </div>
             </div>
 
@@ -61,27 +47,10 @@
             <div class="col-md-3">
                 <div class="kanban-col">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="fw-bold text-info m-0 uppercase tracking-wider"><i data-lucide="flame" class="d-inline w-4 me-1"></i> PREPARING (2)</h6>
-                        <span class="badge bg-info bg-opacity-20 text-info font-monospace">In Cooking</span>
+                        <h6 class="fw-bold text-info m-0 uppercase tracking-wider"><i data-lucide="flame" class="d-inline w-4 me-1"></i> PREPARING</h6>
+                        <span class="badge bg-info bg-opacity-20 text-info font-monospace" id="count-preparing">0 Orders</span>
                     </div>
-
-                    <div class="kanban-card" id="ticket-1025">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="fw-bold text-white fs-5">#ORD-1025</span>
-                            <span class="text-info small font-monospace"><i data-lucide="timer" class="d-inline w-3"></i> 08:40</span>
-                        </div>
-                        <div class="small text-secondary mb-2">Customer: <strong>Rahul V.</strong> (Delivery)</div>
-                        <div class="p-2 bg-dark rounded-3 mb-2 border border-secondary border-opacity-20">
-                            <ul class="list-unstyled m-0 text-white small">
-                                <li><strong>2x</strong> Aura Smoky Truffle Cheeseburger</li>
-                                <li><strong>1x</strong> Fiery Chicken Wings</li>
-                            </ul>
-                        </div>
-                        <div class="p-2 bg-warning bg-opacity-10 border border-warning border-opacity-20 text-warning rounded-3 small mb-3">
-                            ⚠️ Note: Less spicy, extra tissue papers please
-                        </div>
-                        <button class="btn btn-success btn-sm w-100 text-white fw-bold" style="background: #10B981;" onclick="moveTicket('1025', 'ready')">Mark Ready ✅</button>
-                    </div>
+                    <div id="col-preparing"></div>
                 </div>
             </div>
 
@@ -89,45 +58,26 @@
             <div class="col-md-3">
                 <div class="kanban-col">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="fw-bold text-success m-0 uppercase tracking-wider"><i data-lucide="check-circle-2" class="d-inline w-4 me-1"></i> READY (1)</h6>
-                        <span class="badge bg-success bg-opacity-20 text-success font-monospace">Pickup Ready</span>
+                        <h6 class="fw-bold text-success m-0 uppercase tracking-wider"><i data-lucide="check-circle-2" class="d-inline w-4 me-1"></i> READY</h6>
+                        <span class="badge bg-success bg-opacity-20 text-success font-monospace" id="count-ready">0 Orders</span>
                     </div>
-
-                    <div class="kanban-card" id="ticket-1024">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="fw-bold text-white fs-5">#ORD-1024</span>
-                            <span class="text-success small font-monospace">READY</span>
-                        </div>
-                        <div class="small text-secondary mb-2">Customer: <strong>Sneha M.</strong> (Delivery)</div>
-                        <div class="p-2 bg-dark rounded-3 mb-3 border border-secondary border-opacity-20">
-                            <ul class="list-unstyled m-0 text-white small">
-                                <li><strong>1x</strong> Crispy Paneer Tikka Pops</li>
-                            </ul>
-                        </div>
-                        <button class="btn btn-secondary-saas btn-sm w-100" onclick="moveTicket('1024', 'completed')">Dispatch Order 🛵</button>
-                    </div>
+                    <div id="col-ready"></div>
                 </div>
             </div>
 
-            <!-- COLUMN 4: COMPLETED -->
+            <!-- COLUMN 4: COMPLETED / DELIVERED -->
             <div class="col-md-3">
                 <div class="kanban-col">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h6 class="fw-bold text-secondary m-0 uppercase tracking-wider"><i data-lucide="package-check" class="d-inline w-4 me-1"></i> COMPLETED</h6>
-                        <span class="badge bg-secondary font-monospace">Delivered</span>
+                        <span class="badge bg-secondary font-monospace" id="count-delivered">0 Orders</span>
                     </div>
-
-                    <div class="kanban-card opacity-50" id="ticket-1023">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="fw-bold text-white fs-5">#ORD-1023</span>
-                            <span class="text-secondary small font-monospace">12:05 PM</span>
-                        </div>
-                        <div class="small text-secondary mb-2">Customer: <strong>Amit B.</strong></div>
-                    </div>
+                    <div id="col-delivered"></div>
                 </div>
             </div>
         </div>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-client.js"></script>
