@@ -1,47 +1,29 @@
-const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-    ? 'http://localhost:8000/api/v1' 
-    : (window.AURADINE_BACKEND_URL || 'https://your-backend.onrender.com/api/v1');
-
+// Executive Dashboard Logic
+const getApiBase = () => {
+    if (typeof window === 'undefined') return 'http://localhost:8000/api/v1';
+    const host = window.location.hostname;
+    if (!host || host === 'localhost' || host === '127.0.0.1') {
+        return 'http://localhost:8000/api/v1';
+    }
+    return window.AURADINE_BACKEND_URL || 'https://your-backend.onrender.com/api/v1';
+};
 
 document.addEventListener('DOMContentLoaded', () => {
-    initChart();
     loadDashboardData();
 });
-
-function initChart() {
-    const ctx = document.getElementById('topItemsChart')?.getContext('2d');
-    if (!ctx) return;
-
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Smoky Truffle Burger', 'Paneer Tikka Pops', 'Margherita Pizza'],
-            datasets: [{
-                data: [48, 35, 29],
-                backgroundColor: ['#10b981', '#f59e0b', '#8b5cf6'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            plugins: {
-                legend: { position: 'bottom', labels: { color: '#9ca3af' } }
-            }
-        }
-    });
-}
 
 async function loadDashboardData() {
     const token = localStorage.getItem('auradine_token');
     try {
-        const res = await fetch(`${API_BASE}/analytics/dashboard`, {
+        const res = await fetch(`${getApiBase()}/analytics/dashboard`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
             const data = await res.json();
-            document.getElementById('kpiRevenue').innerText = `₹${data.today_revenue}`;
-            document.getElementById('kpiOrdersCount').innerText = data.today_orders_count;
-            document.getElementById('kpiPendingCount').innerText = data.pending_orders_count;
-            renderOrdersTable(data.recent_orders);
+            if (document.getElementById('kpiRevenue')) document.getElementById('kpiRevenue').innerText = `₹${data.today_revenue}`;
+            if (document.getElementById('kpiOrdersCount')) document.getElementById('kpiOrdersCount').innerText = data.today_orders_count;
+            if (document.getElementById('kpiPendingCount')) document.getElementById('kpiPendingCount').innerText = data.pending_orders_count;
+            if (data.recent_orders) renderOrdersTable(data.recent_orders);
         } else {
             renderDemoOrdersTable();
         }
@@ -68,10 +50,14 @@ function renderDemoOrdersTable() {
             <td class="fw-bold text-emerald">${o.amt}</td>
             <td><span class="badge-status status-${o.status}">${o.status}</span></td>
             <td>
-                <button class="btn btn-sm btn-outline-light" onclick="updateStatus('${o.num}', 'delivered')">Mark Delivered</button>
+                <button class="btn btn-sm btn-outline-light" onclick="updateOrderStatus('${o.num}', 'delivered')">Mark Delivered</button>
             </td>
         </tr>
     `).join('');
+}
+
+function updateOrderStatus(orderNum, newStatus) {
+    alert(`Order ${orderNum} status updated to: ${newStatus.toUpperCase()}`);
 }
 
 function refreshDashboard() {

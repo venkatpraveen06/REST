@@ -1,15 +1,20 @@
-const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-    ? 'http://localhost:8000/api/v1' 
-    : (window.AURADINE_BACKEND_URL || 'https://your-backend.onrender.com/api/v1');
-
+// Login & Auth Handling
+const getApiBase = () => {
+    if (typeof window === 'undefined') return 'http://localhost:8000/api/v1';
+    const host = window.location.hostname;
+    if (!host || host === 'localhost' || host === '127.0.0.1') {
+        return 'http://localhost:8000/api/v1';
+    }
+    return window.AURADINE_BACKEND_URL || 'https://your-backend.onrender.com/api/v1';
+};
 
 document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
+    const email = document.getElementById('loginEmail')?.value;
+    const password = document.getElementById('loginPassword')?.value;
 
     try {
-        const response = await fetch(`${API_BASE}/auth/login`, {
+        const response = await fetch(`${getApiBase()}/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
