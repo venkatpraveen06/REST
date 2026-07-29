@@ -22,17 +22,12 @@
         </div>
 
         <nav class="flex-column nav">
-            <a href="#" class="sidebar-nav-item active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
-            <a href="#orders" class="sidebar-nav-item"><i data-lucide="receipt"></i> Orders Stream</a>
-            <a href="kitchen.html" target="_blank" class="sidebar-nav-item"><i data-lucide="chef-hat"></i> Kitchen KDS</a>
-            <a href="#menu" class="sidebar-nav-item"><i data-lucide="utensils"></i> Menu Management</a>
-            <a href="#categories" class="sidebar-nav-item"><i data-lucide="layers"></i> Categories</a>
-            <a href="#customers" class="sidebar-nav-item"><i data-lucide="users"></i> Customer CRM</a>
-            <a href="#payments" class="sidebar-nav-item"><i data-lucide="credit-card"></i> Payments</a>
-            <a href="#analytics" class="sidebar-nav-item"><i data-lucide="trending-up"></i> Analytics</a>
-            <a href="#reviews" class="sidebar-nav-item"><i data-lucide="star"></i> Reviews</a>
-            <a href="#coupons" class="sidebar-nav-item"><i data-lucide="ticket"></i> Coupons</a>
-            <a href="#settings" class="sidebar-nav-item"><i data-lucide="settings"></i> AI & WhatsApp Config</a>
+            <a href="#" class="sidebar-nav-item active" onclick="switchNav(this)"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+            <a href="#orders" class="sidebar-nav-item" onclick="switchNav(this)"><i data-lucide="receipt"></i> Orders Stream</a>
+            <a href="kitchen.html" class="sidebar-nav-item"><i data-lucide="chef-hat"></i> Kitchen KDS</a>
+            <a href="#menu" class="sidebar-nav-item" onclick="switchNav(this)"><i data-lucide="utensils"></i> Menu Catalog</a>
+            <a href="#customers" class="sidebar-nav-item" onclick="switchNav(this)"><i data-lucide="users"></i> Customer CRM</a>
+            <a href="#settings" class="sidebar-nav-item" onclick="switchNav(this)"><i data-lucide="settings"></i> AI & WhatsApp Config</a>
         </nav>
 
         <div class="mt-auto pt-4 border-top border-secondary border-opacity-20">
@@ -69,11 +64,7 @@
             </div>
 
             <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-secondary-saas position-relative p-2 rounded-3">
-                    <i data-lucide="bell" style="width: 20px; height: 20px;"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-dark rounded-circle"></span>
-                </button>
-
+                <a href="kitchen.html" class="btn btn-secondary-saas"><i data-lucide="chef-hat"></i> Open Kitchen KDS</a>
                 <div class="d-flex align-items-center gap-3 ps-3 border-start border-secondary border-opacity-20">
                     <div class="rounded-circle bg-success text-white fw-bold d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">VS</div>
                     <div class="d-none d-md-block">
@@ -84,34 +75,33 @@
             </div>
         </header>
 
-
         <!-- DASHBOARD WIDGETS (KPIs) -->
         <div class="row g-3 mb-4">
             <div class="col-md-4 col-lg-2">
                 <div class="glass-card p-3">
                     <div class="text-secondary small fw-semibold">TODAY REVENUE</div>
-                    <div class="fs-4 fw-bold text-white mt-1" id="kpiRevenue">₹0.00</div>
+                    <div class="fs-4 fw-bold text-white mt-1" id="kpiRevenue">₹24,850</div>
                     <div class="text-success small fw-semibold"><i data-lucide="trending-up" class="d-inline" style="width: 14px;"></i> Live Sync</div>
                 </div>
             </div>
             <div class="col-md-4 col-lg-2">
                 <div class="glass-card p-3">
                     <div class="text-secondary small fw-semibold">TOTAL ORDERS</div>
-                    <div class="fs-4 fw-bold text-white mt-1" id="kpiOrdersCount">0</div>
+                    <div class="fs-4 fw-bold text-white mt-1" id="kpiOrdersCount">2</div>
                     <div class="text-success small fw-semibold">WhatsApp Bot</div>
                 </div>
             </div>
             <div class="col-md-4 col-lg-2">
                 <div class="glass-card p-3">
                     <div class="text-secondary small fw-semibold">PENDING</div>
-                    <div class="fs-4 fw-bold text-warning mt-1" id="kpiPendingCount">0</div>
+                    <div class="fs-4 fw-bold text-warning mt-1" id="kpiPendingCount">1</div>
                     <div class="text-warning small fw-semibold">Needs Accept</div>
                 </div>
             </div>
             <div class="col-md-4 col-lg-2">
                 <div class="glass-card p-3">
                     <div class="text-secondary small fw-semibold">PREPARING</div>
-                    <div class="fs-4 fw-bold text-info mt-1" id="kpiPreparingCount">0</div>
+                    <div class="fs-4 fw-bold text-info mt-1" id="kpiPreparingCount">1</div>
                     <div class="text-info small fw-semibold">In Cooking</div>
                 </div>
             </div>
@@ -130,7 +120,6 @@
                 </div>
             </div>
         </div>
-
 
         <!-- CHARTS ROW -->
         <div class="row g-4 mb-4">
@@ -163,15 +152,37 @@
             </div>
 
             <div class="row g-3" id="liveOrderCardsGrid">
-                <!-- Dynamically populated by JS from Supabase PostgreSQL -->
+                <!-- Dynamically populated by JS -->
             </div>
         </div>
 
+        <!-- ORDERS TABLE -->
+        <div class="glass-card p-4 mb-4">
+            <h5 class="fw-bold text-white mb-3">All Active Orders Log</h5>
+            <table class="table-saas">
+                <thead>
+                    <tr class="text-secondary small">
+                        <th>ORDER ID</th>
+                        <th>CUSTOMER</th>
+                        <th>TYPE</th>
+                        <th>TOTAL</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTableBody">
+                    <!-- Dynamically populated by JS -->
+                </tbody>
+            </table>
+        </div>
 
         <!-- MENU MANAGEMENT SECTION -->
         <div class="glass-card p-4 mb-4" id="menu">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h5 class="fw-bold text-white m-0">Menu Management</h5>
+                <div>
+                    <h5 class="fw-bold text-white m-0">Menu Catalog Management</h5>
+                    <div class="text-secondary small">Add, edit prices, or toggle dish availability for WhatsApp AI</div>
+                </div>
                 <button class="btn btn-primary-saas btn-sm" data-bs-toggle="modal" data-bs-target="#addItemModal">+ Add Food Item</button>
             </div>
             <table class="table-saas">
@@ -185,35 +196,14 @@
                         <th>ACTION</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=100" class="rounded-3" width="48" height="48"></td>
-                        <td class="fw-bold text-white">Aura Smoky Truffle Cheeseburger</td>
-                        <td>Gourmet Burgers</td>
-                        <td class="fw-bold text-success">₹420.00</td>
-                        <td><span class="badge bg-success bg-opacity-20 text-success">Available</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-secondary-saas me-1">Edit</button>
-                            <button class="btn btn-sm btn-outline-danger">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><img src="https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=100" class="rounded-3" width="48" height="48"></td>
-                        <td class="fw-bold text-white">Crispy Paneer Tikka Pops</td>
-                        <td>Starters</td>
-                        <td class="fw-bold text-success">₹280.00</td>
-                        <td><span class="badge bg-success bg-opacity-20 text-success">Available</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-secondary-saas me-1">Edit</button>
-                            <button class="btn btn-sm btn-outline-danger">Delete</button>
-                        </td>
-                    </tr>
+                <tbody id="menuItemsTableBody">
+                    <!-- Dynamically populated by JS -->
                 </tbody>
             </table>
         </div>
 
         <!-- CUSTOMER CRM SECTION -->
-        <div class="glass-card p-4" id="customers">
+        <div class="glass-card p-4 mb-4" id="customers">
             <h5 class="fw-bold text-white mb-4">Customer CRM & Loyalty Points</h5>
             <table class="table-saas">
                 <thead>
@@ -225,23 +215,105 @@
                         <th>LOYALTY POINTS</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="customersTableBody">
                     <tr>
-                        <td class="fw-bold text-white">Aarav Sharma</td>
+                        <td class="fw-bold text-white">Rahul Verma</td>
                         <td>+91 9988776655</td>
-                        <td>12 orders</td>
-                        <td class="fw-bold text-success">₹5,420.00</td>
-                        <td><span class="badge bg-warning text-dark font-monospace">270 pts</span></td>
+                        <td>5 orders</td>
+                        <td class="fw-bold text-success">₹3,420.00</td>
+                        <td><span class="badge bg-warning text-dark font-monospace">170 pts</span></td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold text-white">Ananya Sen</td>
+                        <td>+91 9811223344</td>
+                        <td>3 orders</td>
+                        <td class="fw-bold text-success">₹1,260.00</td>
+                        <td><span class="badge bg-warning text-dark font-monospace">60 pts</span></td>
                     </tr>
                 </tbody>
             </table>
         </div>
+
+        <!-- AI & WHATSAPP CONFIG SECTION -->
+        <div class="glass-card p-4" id="settings">
+            <h5 class="fw-bold text-white mb-3"><i data-lucide="bot" class="d-inline w-5 text-warning me-2"></i> Gemini 3.x AI & WhatsApp Engine Settings</h5>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label text-secondary small fw-semibold">AI MODEL ENGINE</label>
+                    <input type="text" class="form-control bg-dark text-white border-secondary border-opacity-30" value="gemini-2.5-flash (3.x High Speed)" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label text-secondary small fw-semibold">META WHATSAPP BOT STATUS</label>
+                    <input type="text" class="form-control bg-dark text-success border-success border-opacity-30" value="🟢 Connected & Realtime Listening" readonly>
+                </div>
+                <div class="col-12">
+                    <label class="form-label text-secondary small fw-semibold">SYSTEM PROMPT INSTRUCTION</label>
+                    <textarea class="form-control bg-dark text-white border-secondary border-opacity-30" rows="3" readonly>You are AuraDine AI, an intelligent food ordering assistant for Aura Bistro & Grill. Your goal is to parse customer WhatsApp messages, detect intent, recommend items, and assemble order carts.</textarea>
+                </div>
+            </div>
+        </div>
     </main>
 </div>
 
+<!-- ADD FOOD ITEM MODAL -->
+<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white border border-secondary border-opacity-30">
+            <div class="modal-header border-bottom border-secondary border-opacity-20">
+                <h5 class="modal-title fw-bold" id="addItemModalLabel">➕ Add New Dish to Menu</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addItemForm" onsubmit="handleAddMenuItem(event)">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-secondary">FOOD DISH NAME</label>
+                        <input type="text" id="menuItemName" class="form-control bg-dark text-white border-secondary border-opacity-30" placeholder="e.g. Fiery Chicken Wings (6pcs)" required>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-secondary">CATEGORY</label>
+                            <select id="menuItemCategory" class="form-select bg-dark text-white border-secondary border-opacity-30">
+                                <option value="Burgers">Gourmet Burgers</option>
+                                <option value="Starters">Starters & Bites</option>
+                                <option value="Pizza">Sourdough Pizza</option>
+                                <option value="Beverages">Thickshakes & Drinks</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-secondary">PRICE (₹)</label>
+                            <input type="number" step="0.01" id="menuItemPrice" class="form-control bg-dark text-white border-secondary border-opacity-30" placeholder="350.00" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-secondary">IMAGE URL</label>
+                        <input type="url" id="menuItemImage" class="form-control bg-dark text-white border-secondary border-opacity-30" placeholder="https://images.unsplash.com/..." value="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=100">
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="menuItemAvailable" checked>
+                        <label class="form-check-label small text-secondary" for="menuItemAvailable">Available for ordering on WhatsApp</label>
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-secondary border-opacity-20">
+                    <button type="button" class="btn btn-secondary-saas btn-sm" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary-saas btn-sm">Save Dish to Catalog</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/dashboard.js"></script>
 <script>
     lucide.createIcons();
-    
+
+    function switchNav(element) {
+        document.querySelectorAll('.sidebar-nav-item').forEach(el => el.classList.remove('active'));
+        if (element) element.classList.add('active');
+    }
+
     function toggleTheme() {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -288,13 +360,6 @@
             options: { plugins: { legend: { position: 'bottom', labels: { color: '#94A3B8' } } } }
         });
     }
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-client.js"></script>
-    <script src="js/dashboard.js"></script>
-    <script>
-        lucide.createIcons();
-    </script>
+</script>
 </body>
 </html>
-

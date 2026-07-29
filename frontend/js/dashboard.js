@@ -1,4 +1,4 @@
-// Realtime Dynamic Executive Dashboard & Live Order Stream Logic
+// Realtime Dynamic Executive Dashboard, Menu Catalog & Auth Guard Logic
 const getApiBase = () => {
     if (typeof window === 'undefined') return 'http://localhost:8000/api/v1';
     const host = window.location.hostname;
@@ -8,7 +8,7 @@ const getApiBase = () => {
     return window.AURADINE_BACKEND_URL || 'https://your-backend.onrender.com/api/v1';
 };
 
-// Global in-memory state for fast, reactive UI updates
+// Global in-memory state for Orders Stream
 window.auradineOrdersState = [
     { 
         id: '20000000-0000-0000-0000-000000000001', 
@@ -30,6 +30,26 @@ window.auradineOrdersState = [
     }
 ];
 
+// Global in-memory state for Menu Items
+window.auradineMenuItemsState = [
+    {
+        id: 'm1',
+        name: 'Aura Smoky Truffle Cheeseburger',
+        category: 'Gourmet Burgers',
+        price: 420.00,
+        image_url: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=100',
+        is_available: true
+    },
+    {
+        id: 'm2',
+        name: 'Crispy Paneer Tikka Pops',
+        category: 'Starters & Bites',
+        price: 280.00,
+        image_url: 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=100',
+        is_available: true
+    }
+];
+
 document.addEventListener('DOMContentLoaded', () => {
     // 1. ADMIN AUTHENTICATION GUARD
     if (!checkAdminAuthGuard()) return;
@@ -39,14 +59,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Render initial state & load DB stats
     renderCurrentState();
+    renderMenuItemsTable();
     loadDashboardData();
+    loadMenuItemsFromDB();
 
     // 4. Subscribe to live Supabase Realtime updates on 'orders' table
     const restaurantId = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
     if (window.AuraSupabaseRealtime) {
         window.AuraSupabaseRealtime.subscribeToLiveOrders(restaurantId, (newOrder) => {
             console.log("⚡ Realtime new order arrived in Dashboard:", newOrder);
-            loadDashboardData(); // Refresh analytics & live cards stream
+            loadDashboardData();
         });
     }
 });
@@ -105,6 +127,32 @@ async function loadDashboardData() {
         }
     } catch (e) {
         console.warn('Backend API offline, serving reactive state engine');
+    }
+}
+
+async function loadMenuItemsFromDB() {
+    const token = localStorage.getItem('auradine_token');
+    try {
+        const res = await fetch(`${getApiBase()}/menu/items`, {
+            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+        });
+
+        if (res.ok) {
+            const items = await res.json();
+            if (items && items.length > 0) {
+                window.auradineMenuItemsState = items.map(i => ({
+                    id: i.id,
+                    name: i.name,
+                    category: i.category || 'Main Course',
+                    price: parseFloat(i.price),
+                    image_url: i.image_url || 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=100',
+                    is_available: i.is_available ?? true
+                }));
+                renderMenuItemsTable();
+            }
+        }
+    } catch (e) {
+        console.warn('Menu API offline, serving in-memory catalog');
     }
 }
 
@@ -208,6 +256,95 @@ function renderOrdersTable(orders) {
             </tr>
         `;
     }).join('');
+}
+
+// MENU CATALOG FUNCTIONS
+function renderMenuItemsTable() {
+    const tbody = document.getElementById('menuItemsTableBody');
+    if (!tbody) return;
+
+    tbody.innerHTML = window.auradineMenuItemsState.map(item => `
+        <tr id="menu-row-${item.id}">
+            <td><img src="${item.image_url}" class="rounded-3" width="48" height="48" style="object-fit: cover;"></td>
+            <td class="fw-bold text-white">${item.name}</td>
+            <td>${item.category}</td>
+            <td class="fw-bold text-success">₹${item.price.toFixed(2)}</td>
+            <td>
+                <span class="badge ${item.is_available ? 'bg-success bg-opacity-20 text-success' : 'bg-danger bg-opacity-20 text-danger'}">
+                    ${item.is_available ? 'Available' : 'Sold Out'}
+                </span>
+            </td>
+            <td>
+                <button class="btn btn-sm btn-secondary-saas me-1" onclick="toggleItemAvailability('${item.id}')">Toggle</button>
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteMenuItem('${item.id}')">Delete</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+async function handleAddMenuItem(e) {
+    e.preventDefault();
+    const name = document.getElementById('menuItemName')?.value;
+    const category = document.getElementById('menuItemCategory')?.value;
+    const price = parseFloat(document.getElementById('menuItemPrice')?.value || 0);
+    const image_url = document.getElementById('menuItemImage')?.value || 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=100';
+    const is_available = document.getElementById('menuItemAvailable')?.checked ?? true;
+
+    const newItem = {
+        id: `m_${Date.now()}`,
+        name,
+        category,
+        price,
+        image_url,
+        is_available
+    };
+
+    // 1. Mutate in-memory state
+    window.auradineMenuItemsState.unshift(newItem);
+    renderMenuItemsTable();
+
+    // 2. Hide Modal
+    const modalEl = document.getElementById('addItemModal');
+    if (modalEl && window.bootstrap) {
+        const modal = window.bootstrap.Modal.getInstance(modalEl) || new window.bootstrap.Modal(modalEl);
+        modal.hide();
+    }
+    document.getElementById('addItemForm')?.reset();
+
+    // 3. Send API POST Request
+    const token = localStorage.getItem('auradine_token');
+    try {
+        await fetch(`${getApiBase()}/menu/items`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
+            body: JSON.stringify({
+                name,
+                category_id: "c1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                price,
+                description: name,
+                image_url,
+                is_available
+            })
+        });
+    } catch (err) {
+        console.warn('Backend offline, added to local catalog state');
+    }
+}
+
+function toggleItemAvailability(itemId) {
+    const item = window.auradineMenuItemsState.find(i => i.id === itemId);
+    if (item) {
+        item.is_available = !item.is_available;
+        renderMenuItemsTable();
+    }
+}
+
+function deleteMenuItem(itemId) {
+    window.auradineMenuItemsState = window.auradineMenuItemsState.filter(i => i.id !== itemId);
+    renderMenuItemsTable();
 }
 
 async function updateOrderStatus(orderId, newStatus) {
