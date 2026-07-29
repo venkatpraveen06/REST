@@ -1,4 +1,4 @@
-// Realtime Dynamic Executive Dashboard Logic
+// Realtime Dynamic Executive Dashboard & Auth Guard Logic
 const getApiBase = () => {
     if (typeof window === 'undefined') return 'http://localhost:8000/api/v1';
     const host = window.location.hostname;
@@ -9,9 +9,16 @@ const getApiBase = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. ADMIN AUTHENTICATION GUARD
+    if (!checkAdminAuthGuard()) return;
+
+    // 2. Load User Profile Header
+    initAdminProfileHeader();
+
+    // 3. Load Dashboard Stats
     loadDashboardData();
 
-    // Subscribe to live Supabase Realtime updates on 'orders' table
+    // 4. Subscribe to live Supabase Realtime updates on 'orders' table
     const restaurantId = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
     if (window.AuraSupabaseRealtime) {
         window.AuraSupabaseRealtime.subscribeToLiveOrders(restaurantId, (newOrder) => {
@@ -20,6 +27,38 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+function checkAdminAuthGuard() {
+    const token = localStorage.getItem('auradine_token');
+    if (!token) {
+        window.location.href = 'login.html';
+        return false;
+    }
+    return true;
+}
+
+function initAdminProfileHeader() {
+    try {
+        const userJson = localStorage.getItem('auradine_user');
+        if (userJson) {
+            const user = JSON.parse(userJson);
+            if (document.getElementById('adminUserName')) {
+                document.getElementById('adminUserName').innerText = user.full_name || 'Chef Vikram Seth';
+            }
+            if (document.getElementById('adminUserRole')) {
+                document.getElementById('adminUserRole').innerText = `${user.restaurant_name || 'Aura Bistro'} (${user.role || 'Owner'})`;
+            }
+        }
+    } catch (e) {
+        console.log('Profile header initialized');
+    }
+}
+
+function logoutAdmin() {
+    localStorage.removeItem('auradine_token');
+    localStorage.removeItem('auradine_user');
+    window.location.href = 'login.html';
+}
 
 async function loadDashboardData() {
     const token = localStorage.getItem('auradine_token');
@@ -50,18 +89,31 @@ function renderOrdersTable(orders) {
     const tbody = document.getElementById('ordersTableBody');
     if (!tbody) return;
 
-    tbody.innerHTML = orders.map(o => `
-        <tr>
-            <td class="fw-bold text-white">#${o.order_number}</td>
-            <td>${o.customer?.name || 'WhatsApp Guest'}</td>
-            <td><span class="badge bg-secondary">${o.order_type || 'Delivery'}</span></td>
-            <td class="fw-bold text-emerald">₹${o.total_amount}</td>
-            <td><span class="badge-status status-${(o.status || 'pending').toLowerCase()}">${o.status}</span></td>
-            <td>
-                <button class="btn btn-sm btn-outline-light" onclick="updateOrderStatus('${o.id}', 'delivered')">Mark Delivered</button>
-            </td>
-        </tr>
-    `).join('');
+    tbody.innerHTML = orders.map(o => {
+        const status = (o.status || 'pending').toLowerCase();
+        let actionBtn = '';
+        if (status === 'pending') {
+            actionBtn = `<button class="btn btn-sm btn-success me-1" onclick="updateOrderStatus('${o.id}', 'preparing')">Accept 🍳</button>
+                         <button class="btn btn-sm btn-outline-danger" onclick="updateOrderStatus('${o.id}', 'cancelled')">Reject</button>`;
+        } else if (status === 'preparing') {
+            actionBtn = `<button class="btn btn-sm btn-info text-white me-1" onclick="updateOrderStatus('${o.id}', 'ready')">Mark Ready ✅</button>`;
+        } else if (status === 'ready') {
+            actionBtn = `<button class="btn btn-sm btn-primary-saas" onclick="updateOrderStatus('${o.id}', 'delivered')">Dispatch 🛵</button>`;
+        } else {
+            actionBtn = `<span class="badge bg-secondary">Completed</span>`;
+        }
+
+        return `
+            <tr>
+                <td class="fw-bold text-white">#${o.order_number}</td>
+                <td>${o.customer?.name || 'WhatsApp Guest'}</td>
+                <td><span class="badge bg-secondary">${o.order_type || 'Delivery'}</span></td>
+                <td class="fw-bold text-emerald">₹${o.total_amount}</td>
+                <td><span class="badge-status status-${status}">${status.toUpperCase()}</span></td>
+                <td>${actionBtn}</td>
+            </tr>
+        `;
+    }).join('');
 }
 
 function renderDemoOrdersTable() {
@@ -69,9 +121,9 @@ function renderDemoOrdersTable() {
     if (!tbody) return;
 
     const demoOrders = [
-        { id: '1', order_number: 'ORD-20260729-0001', customer: { name: 'Aarav Sharma' }, order_type: 'Delivery', total_amount: '843.00', status: 'preparing' },
-        { id: '2', order_number: 'ORD-20260729-0002', customer: { name: 'Priya Roy' }, order_type: 'Pickup', total_amount: '610.00', status: 'pending' },
-        { id: '3', order_number: 'ORD-20260729-0003', customer: { name: 'Karan Patel' }, order_type: 'Delivery', total_amount: '1,240.00', status: 'delivered' }
+        { id: '20000000-0000-0000-0000-000000000001', order_number: 'ORD-20260729-0001', customer: { name: 'Aarav Sharma' }, order_type: 'Delivery', total_amount: '843.00', status: 'preparing' },
+        { id: '20000000-0000-0000-0000-000000000002', order_number: 'ORD-20260729-0002', customer: { name: 'Priya Roy' }, order_type: 'Pickup', total_amount: '610.00', status: 'pending' },
+        { id: '20000000-0000-0000-0000-000000000003', order_number: 'ORD-20260729-0003', customer: { name: 'Karan Patel' }, order_type: 'Delivery', total_amount: '1,240.00', status: 'delivered' }
     ];
     renderOrdersTable(demoOrders);
 }
@@ -81,16 +133,22 @@ async function updateOrderStatus(orderId, newStatus) {
     try {
         const res = await fetch(`${getApiBase()}/orders/${orderId}/status?new_status=${newStatus}`, {
             method: 'PATCH',
-            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
+            body: JSON.stringify({ status: newStatus })
         });
 
         if (res.ok) {
             console.log(`Order ${orderId} updated to ${newStatus}`);
-            loadDashboardData();
         }
     } catch (e) {
         console.warn('API Offline, status updated locally');
     }
+    
+    // Reload dashboard stats and table immediately
+    loadDashboardData();
 }
 
 function refreshDashboard() {

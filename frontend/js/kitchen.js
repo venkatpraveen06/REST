@@ -133,7 +133,7 @@ function renderDemoKanbanBoard() {
             ]
         },
         {
-            id: 'demo-2',
+            id: '20000000-0000-0000-0000-000000000002',
             order_number: 'ORD-20260729-0002',
             status: 'pending',
             order_type: 'pickup',
@@ -156,9 +156,13 @@ async function updateTicketStatus(orderId, newStatus) {
 
     const token = localStorage.getItem('auradine_token');
     try {
-        const res = await fetch(`${getApiBase()}/orders/${orderId}/status?new_status=${newStatus}`, {
+        const res = await fetch(`${getApiBase()}/kitchen/tickets/${orderId}/status?new_status=${newStatus}`, {
             method: 'PATCH',
-            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
+            body: JSON.stringify({ status: newStatus })
         });
 
         if (res.ok) {

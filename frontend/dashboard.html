@@ -45,7 +45,7 @@
                     <input class="form-check-input" type="checkbox" id="themeToggle" checked onclick="toggleTheme()">
                 </div>
             </div>
-            <a href="index.html" class="sidebar-nav-item text-danger"><i data-lucide="log-out"></i> Logout</a>
+            <a href="javascript:void(0)" onclick="logoutAdmin()" class="sidebar-nav-item text-danger"><i data-lucide="log-out"></i> Logout</a>
         </div>
     </aside>
 
@@ -77,12 +77,13 @@
                 <div class="d-flex align-items-center gap-3 ps-3 border-start border-secondary border-opacity-20">
                     <div class="rounded-circle bg-success text-white fw-bold d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">VS</div>
                     <div class="d-none d-md-block">
-                        <div class="fw-bold text-white small">Chef Vikram Seth</div>
-                        <div class="text-secondary small">Owner & Head Chef</div>
+                        <div class="fw-bold text-white small" id="adminUserName">Chef Vikram Seth</div>
+                        <div class="text-secondary small" id="adminUserRole">Owner & Head Chef</div>
                     </div>
                 </div>
             </div>
         </header>
+
 
         <!-- DASHBOARD WIDGETS (KPIs) -->
         <div class="row g-3 mb-4">

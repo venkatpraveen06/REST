@@ -1,4 +1,4 @@
-// Login & Auth Handling
+// Admin JWT Login & Authentication Handler
 const getApiBase = () => {
     if (typeof window === 'undefined') return 'http://localhost:8000/api/v1';
     const host = window.location.hostname;
@@ -26,10 +26,34 @@ document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
             localStorage.setItem('auradine_user', JSON.stringify(data.user));
             window.location.href = 'dashboard.html';
         } else {
-            alert(data.detail || 'Login failed');
+            // Fallback for demo login if API is starting
+            if (email === 'admin@aurabistro.com' && password === 'password123') {
+                saveDemoSession();
+                window.location.href = 'dashboard.html';
+            } else {
+                alert(data.detail || 'Invalid admin credentials');
+            }
         }
     } catch (err) {
-        console.warn('API Offline - Redirecting to demo dashboard...');
-        window.location.href = 'dashboard.html';
+        console.warn('Backend API Offline - Initializing demo admin session');
+        if (email === 'admin@aurabistro.com' && password === 'password123') {
+            saveDemoSession();
+            window.location.href = 'dashboard.html';
+        } else {
+            alert('Invalid credentials. Use admin@aurabistro.com / password123');
+        }
     }
 });
+
+function saveDemoSession() {
+    const demoUser = {
+        id: 'u1b2c3d4-e5f6-7890-abcd-ef1234567892',
+        email: 'admin@aurabistro.com',
+        full_name: 'Chef Vikram Seth',
+        role: 'restaurant_owner',
+        restaurant_id: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+        restaurant_name: 'Aura Bistro & Grill'
+    };
+    localStorage.setItem('auradine_token', 'demo_jwt_token_admin_authenticated');
+    localStorage.setItem('auradine_user', JSON.stringify(demoUser));
+}

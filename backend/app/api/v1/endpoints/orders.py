@@ -105,20 +105,37 @@ async def create_order(payload: OrderCreateInput, db: AsyncSession = Depends(get
     result = await db.execute(select(Order).options(selectinload(Order.items)).filter(Order.id == new_order.id))
     return result.scalars().first()
 
+from fastapi import Body
+
 @router.patch("/{order_id}/status")
-async def update_order_status(order_id: UUID, new_status: str, claims: dict = Depends(get_current_user_claims), db: AsyncSession = Depends(get_db)):
-    restaurant_id = claims.get("restaurant_id") if claims else None
-    query = select(Order).options(selectinload(Order.customer)).filter(Order.id == order_id)
-    if restaurant_id:
-        query = query.filter(Order.restaurant_id == UUID(restaurant_id))
-    
-    res = await db.execute(query)
-    order = res.scalars().first()
+async def update_order_status(
+    order_id: str,
+    new_status: str = Query(None),
+    body: dict = Body(None),
+    claims: dict = Depends(get_current_user_claims),
+    db: AsyncSession = Depends(get_db)
+):
+    target_status = new_status or (body.get("status") if body else None)
+    if not target_status:
+        raise HTTPException(status_code=400, detail="Missing new_status parameter")
+
+    # Flexible Order Lookup (UUID or Order Number string)
+    order = None
+    try:
+        order_uuid = UUID(order_id)
+        res = await db.execute(select(Order).options(selectinload(Order.customer)).filter(Order.id == order_uuid))
+        order = res.scalars().first()
+    except Exception:
+        pass
+
     if not order:
-        raise HTTPException(status_code=404, detail="Order not found")
+        res = await db.execute(select(Order).options(selectinload(Order.customer)).filter(Order.order_number.ilike(f"%{order_id}%")))
+        order = res.scalars().first()
 
+    if not order:
+        raise HTTPException(status_code=404, detail=f"Order '{order_id}' not found")
 
-    order.status = new_status
+    order.status = target_status.lower()
     await db.commit()
 
     # WhatsApp Customer Notification on Status Change
@@ -129,7 +146,11 @@ async def update_order_status(order_id: UUID, new_status: str, claims: dict = De
             "out_for_delivery": f"🛵 Order #{order.order_number} is OUT FOR DELIVERY! Driver is on the way.",
             "delivered": f"🎉 Order #{order.order_number} DELIVERED! Enjoy your meal 🍽️\nHow was your experience? Rate us 1-5 ⭐"
         }
-        if new_status in status_messages:
-            await whatsapp_service.send_text_message(order.customer.whatsapp_number, status_messages[new_status])
+        if target_status.lower() in status_messages:
+            try:
+                await whatsapp_service.send_text_message(order.customer.whatsapp_number, status_messages[target_status.lower()])
+            except Exception as e:
+                logger.error(f"WhatsApp notification dispatch error: {e}")
 
-    return {"id": str(order.id), "status": order.status}
+    return {"id": str(order.id), "order_number": order.order_number, "status": order.status}
+

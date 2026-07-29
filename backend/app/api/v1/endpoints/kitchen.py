@@ -33,4 +33,52 @@ async def get_kitchen_queue(claims: dict = Depends(get_current_user_claims), db:
         .order_by(Order.created_at.asc())
     )
 
-    return result.scalars().all()
+from fastapi import Query, Body
+from app.services.whatsapp_service import whatsapp_service
+
+@router.patch("/tickets/{ticket_id}/status")
+async def patch_kitchen_ticket_status(
+    ticket_id: str,
+    new_status: str = Query(None),
+    body: dict = Body(None),
+    claims: dict = Depends(get_current_user_claims),
+    db: AsyncSession = Depends(get_db)
+):
+    target_status = new_status or (body.get("status") if body else None)
+    if not target_status:
+        raise HTTPException(status_code=400, detail="Missing status parameter")
+
+    # Flexible Order Lookup
+    order = None
+    try:
+        order_uuid = UUID(ticket_id)
+        res = await db.execute(select(Order).options(selectinload(Order.customer)).filter(Order.id == order_uuid))
+        order = res.scalars().first()
+    except Exception:
+        pass
+
+    if not order:
+        res = await db.execute(select(Order).options(selectinload(Order.customer)).filter(Order.order_number.ilike(f"%{ticket_id}%")))
+        order = res.scalars().first()
+
+    if not order:
+        raise HTTPException(status_code=404, detail=f"Ticket '{ticket_id}' not found")
+
+    order.status = target_status.lower()
+    await db.commit()
+
+    # WhatsApp Notification Dispatch
+    if order.customer and order.customer.whatsapp_number:
+        status_messages = {
+            "preparing": f"🍳 Order #{order.order_number} is now being PREPARED in the kitchen!",
+            "ready": f"🔔 Order #{order.order_number} is READY for pickup/delivery!",
+            "delivered": f"🎉 Order #{order.order_number} DELIVERED! Enjoy your meal 🍽️"
+        }
+        if target_status.lower() in status_messages:
+            try:
+                await whatsapp_service.send_text_message(order.customer.whatsapp_number, status_messages[target_status.lower()])
+            except Exception as e:
+                pass
+
+    return {"id": str(order.id), "order_number": order.order_number, "status": order.status}
+
